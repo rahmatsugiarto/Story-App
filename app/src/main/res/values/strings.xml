@@ -1,0 +1,50 @@
+<resources>
+    <string name="app_name">Story App</string>
+    <string name="icons_story_app">Icons Story App</string>
+    <string name="invalid_email">Email not valid</string>
+    <string name="pass_length">Password minimum 7 characters</string>
+    <string name="log_in">Log in</string>
+    <string name="password">Password</string>
+    <string name="don_t_have_account">Don\'t have account?</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="email">Email</string>
+    <string name="email_required">Email is required</string>
+    <string name="name_required">Name is required</string>
+    <string name="password_required">Password is required</string>
+    <string name="icon_person">Icon person</string>
+    <string name="name">Name</string>
+    <string name="already_have_an_account">Already have an account?</string>
+    <string name="add_story">Add Story</string>
+    <string name="detail_story">Detail Story</string>
+    <string name="new_story">New Story</string>
+    <string name="upload">Upload</string>
+    <string name="add_a_caption">add a caption</string>
+    <string name="gallery">Gallery</string>
+    <string name="camera">Camera</string>
+    <string name="validation_add_image">Please Add Image to Upload</string>
+    <string name="validation_add_caption">Please input your caption</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="logout">Logout</string>
+    <string name="are_you_sure_logout">Are you sure to logout?</string>
+    <string name="timeout">"Timeout! please try again later"</string>
+    <string name="email_already_exists">"Email already exists"</string>
+    <string name="success_create_account">"Successfully created an account, now you can login"</string>
+    <string name="invalid_email_pass">""Invalid email or password""</string>
+    <string name="setting">Setting</string>
+    <string name="no_data">No Data</string>
+    <string name="image_priview">Image priview</string>
+    <string name="take_photo">Take Photo</string>
+    <string name="switch_camera">Switch Camera</string>
+    <string name="more">More</string>
+    <string name="image_stoty">Image Stoty</string>
+    <string name="like">Like</string>
+    <string name="comment">Comment</string>
+    <string name="to_share">to Share</string>
+    <string name="bookmark">bookmark</string>
+    <string name="failed_to_take_pictures">Failed to take pictures.</string>
+    <string name="failed_to_bring_up_the_camera">Failed to bring up the camera.</string>
+    <string name="went_something_wrong">Went something wrong</string>
+
+
+</resources>
