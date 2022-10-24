@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import coil.load
 import com.rs.storyapp.R
+import com.rs.storyapp.data.local.database.StoryEntity
 import com.rs.storyapp.databinding.ActivityDetailStoryBinding
 import com.rs.storyapp.model.response.Story
 
@@ -14,7 +15,7 @@ class DetailStoryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        val dataStory: Story? = intent.getParcelableExtra(DETAIL_STORY)
+        val dataStory: StoryEntity? = intent.getParcelableExtra(DETAIL_STORY)
 
         binding.apply {
             tvDetailName.text = dataStory?.name

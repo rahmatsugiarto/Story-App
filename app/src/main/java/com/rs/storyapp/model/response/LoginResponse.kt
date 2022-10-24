@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName
 /**
  * Created by Rahmat Sugiarto on 26/09/2022
  */
-data class ResponseLogin(
+data class LoginResponse(
     @SerializedName("error")
     val error: Boolean,
     @SerializedName("loginResult")

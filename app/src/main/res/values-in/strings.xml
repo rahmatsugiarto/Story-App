@@ -34,7 +34,6 @@
     <string name="invalid_email_pass">""Email atau kata sandi tidak valid""</string>
     <string name="setting">Pengaturan</string>
     <string name="no_data">Tidak ada Data</string>
-
     <string name="image_priview">Pratinjau gambar</string>
     <string name="take_photo">Memotret</string>
     <string name="switch_camera">Ganti Kamera</string>
@@ -47,7 +46,16 @@
     <string name="failed_to_take_pictures">Gagal mengambil gambar.</string>
     <string name="failed_to_bring_up_the_camera">Gagal memunculkan kamera.</string>
     <string name="went_something_wrong">Terjadi sesuatu yang salah</string>
-
+    <string name="didnt_get_permission">Tidak mendapatkan izin.</string>
+    <string name="show_map">Menampilkan peta</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="loading">Memuat…</string>
+    <string name="location">lokasi</string>
+    <string name="location_enable">Harap aktifkan lokasi Anda</string>
+    <string name="location_denied">Izin lokasi ditolak</string>
+    <string name="setting_location">Pengaturan</string>
+    <string name="retry">Mencoba kembali</string>
+    <string name="error">Error</string>
 
 
 </resources>

@@ -1,15 +1,17 @@
-package com.rs.storyapp.data
+package com.rs.storyapp.data.repository
 
-import com.rs.storyapp.data.local.DataUserPreference
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.liveData
+import com.rs.storyapp.common.util.wrapEspressoIdlingResource
+import com.rs.storyapp.data.Result
+import com.rs.storyapp.data.local.preference.DataUserPreference
 import com.rs.storyapp.data.remote.ApiService
 import com.rs.storyapp.model.request.RequestLogin
 import com.rs.storyapp.model.request.RequestSignUp
-import com.rs.storyapp.model.response.ResponseLogin
-import com.rs.storyapp.model.response.ResponseMessage
-import kotlinx.coroutines.Dispatchers
+import com.rs.storyapp.model.response.LoginResponse
+import com.rs.storyapp.model.response.MessageResponse
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
+
 
 /**
  * Created by Rahmat Sugiarto on 10/10/2022
@@ -19,41 +21,41 @@ class AuthRepository(
     private val preference: DataUserPreference,
 ) {
 
-    suspend fun userSignUp(
+    fun userSignUp(
         requestRegister: RequestSignUp
-    ): Flow<Result<ResponseMessage>> = flow {
+    ): LiveData<Result<MessageResponse>> = liveData {
         emit(Result.Loading)
-        try {
-            val response = apiService.signUp(requestRegister)
-            emit(Result.Success(response))
-        } catch (e: Exception) {
-            e.printStackTrace()
-            emit(Result.Error(e.toString()))
+        wrapEspressoIdlingResource {
+            try {
+                val response = apiService.userSignUp(requestRegister)
+                emit(Result.Success(response))
+            } catch (e: Exception) {
+                e.printStackTrace()
+                emit(Result.Error(e.message.toString()))
+            }
         }
-    }.flowOn(Dispatchers.IO)
-
-
-    suspend fun userLogin(requestLogin: RequestLogin): Flow<Result<ResponseLogin>> = flow {
-        try {
-            emit(Result.Loading)
-            val response = apiService.userLogin(requestLogin)
-            emit(Result.Success(response))
-        } catch (e: Exception) {
-            e.printStackTrace()
-            emit(Result.Error(e.toString()))
-        }
-    }.flowOn(Dispatchers.IO)
-
-
-    suspend fun saveAuthToken(token: String) {
-        preference.saveToken(token)
     }
 
-    suspend fun saveIsLogin() {
-        preference.saveIsLogin(false)
+
+    fun userLogin(requestLogin: RequestLogin): LiveData<Result<LoginResponse>> = liveData {
+        emit(Result.Loading)
+        wrapEspressoIdlingResource {
+            try {
+                val response = apiService.userLogin(requestLogin)
+                emit(Result.Success(response))
+            } catch (e: Exception) {
+                emit(Result.Error(e.message.toString()))
+            }
+        }
     }
 
-    fun getAuthToken(): Flow<String?> = preference.getToken()
+
+    suspend fun saveToken(token: String) = preference.saveToken(token)
+
+    fun getToken(): Flow<String> = preference.getToken()
+
+    suspend fun deleteUser() = preference.deleteUser()
+
 
     companion object {
         @Volatile

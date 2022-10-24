@@ -1,19 +1,21 @@
-package com.rakuseru.storyapp1.data.local
+package com.rs.storyapp.data.local.database
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 
+/**
+ * Created by Rahmat Sugiarto on 17/10/2022
+ */
 @Dao
-interface RemoteKeyDao {
-
-    @Query("SELECT * FROM app_remote_keys WHERE id = :id")
+interface RemoteKeysDao {
+    @Query("SELECT * FROM remote_key WHERE id = :id")
     suspend fun getRemoteKeysId(id: String): RemoteKeyEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(remoteKeyEntity: List<RemoteKeyEntity>)
 
-    @Query("DELETE FROM app_remote_keys")
+    @Query("DELETE FROM remote_key")
     suspend fun deleteRemoteKeys()
 }

@@ -6,10 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".ui.addstory.CameraActivity">
 
-    <androidx.camera.view.PreviewView
-        android:id="@+id/viewFinder"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+<!--    <androidx.camera.view.PreviewView-->
+<!--        android:id="@+id/viewFinder"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent" />-->
 
     <ImageView
         android:id="@+id/captureImage"

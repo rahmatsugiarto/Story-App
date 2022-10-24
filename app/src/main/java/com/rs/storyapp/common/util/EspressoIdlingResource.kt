@@ -1,9 +1,8 @@
-package com.dicoding.newsapp.utils
+package com.rs.storyapp.common.util
 
 import androidx.test.espresso.idling.CountingIdlingResource
 
 object EspressoIdlingResource {
-
     private const val RESOURCE = "GLOBAL"
 
     @JvmField

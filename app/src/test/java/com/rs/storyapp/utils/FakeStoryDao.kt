@@ -1,4 +1,4 @@
-package com.rs.storyapp.data
+package com.rs.storyapp.utils
 
 import androidx.paging.PagingSource
 import com.rs.storyapp.data.local.database.StoryDao

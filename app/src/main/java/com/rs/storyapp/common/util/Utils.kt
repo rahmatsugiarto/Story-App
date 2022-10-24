@@ -1,5 +1,6 @@
 package com.rs.storyapp.common.util
 
+import android.app.Activity
 import android.app.Application
 import android.content.ContentResolver
 import android.content.Context
@@ -9,9 +10,13 @@ import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.net.Uri
 import android.os.Environment
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.rs.storyapp.R
+import com.rs.storyapp.ui.liststory.ListStoryActivity
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -26,9 +31,33 @@ fun <T> AppCompatActivity.goto(theClass: Class<T>) {
     startActivity(intent)
 }
 
+fun <T> AppCompatActivity.gotoWithToken(theClass: Class<T>, token: String) {
+    val intent = Intent(this, theClass)
+    intent.putExtra(ListStoryActivity.EXTRA_TOKEN, token)
+    startActivity(intent)
+}
+
+
 fun isEmailValid(email: String): Boolean {
     return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
 }
+
+fun <T> AppCompatActivity.showToastLong(message: String) {
+    Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+}
+
+fun AppCompatActivity.showToastShort(message: String) {
+    Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+}
+
+fun Activity.hideSoftKeyboard() {
+    currentFocus?.let {
+        val inputMethodManager =
+            ContextCompat.getSystemService(this, InputMethodManager::class.java)!!
+        inputMethodManager.hideSoftInputFromWindow(it.windowToken, 0)
+    }
+}
+
 
 private const val FILENAME_FORMAT = "dd-MMM-yyyy"
 
@@ -37,11 +66,13 @@ val timeStamp: String = SimpleDateFormat(
     Locale.US
 ).format(System.currentTimeMillis())
 
+// Untuk kasus Intent Camera
 fun createCustomTempFile(context: Context): File {
     val storageDir: File? = context.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
     return File.createTempFile(timeStamp, ".jpg", storageDir)
 }
 
+// Untuk kasus CameraX
 fun createFile(application: Application): File {
     val mediaDir = application.externalMediaDirs.firstOrNull()?.let {
         File(it, application.resources.getString(R.string.app_name)).apply { mkdirs() }

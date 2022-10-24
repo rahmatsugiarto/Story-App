@@ -1,4 +1,4 @@
-package com.rs.storyapp.data.local
+package com.rs.storyapp.data.local.preference
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit

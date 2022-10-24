@@ -1,0 +1,186 @@
+{
+  "error": false,
+  "message": "Stories fetched successfully",
+  "listStory": [
+    {
+      "id": "story-aNF9_bXwVz0TUVqv",
+      "name": "RahmatDev",
+      "description": "oke",
+      "photoUrl": "https://story-api.dicoding.dev/images/stories/photos-1666498981099_mWFdLjJF.jpg",
+      "createdAt": "2022-10-23T04:23:01.101Z",
+      "lat": -6.896382,
+      "lon": 107.5958585
+    },
+    {
+      "id": "story-w7SaijCK1mf8on97",
+      "name": "tess",
+      "description": "tes loc1",
+      "photoUrl": "https://story-api.dicoding.dev/images/stories/photos-1666495212635_Kj5JUVZi.jpg",
+      "createdAt": "2022-10-23T03:20:12.640Z",
+      "lat": -6.342342342342342,
+      "lon": 106.87030642297793
+    },
+    {
+      "id": "story-A3vgJ9EX7SfYgMHR",
+      "name": "Rifqi Naufal ",
+      "description": "handle same location berhasil ",
+      "photoUrl": "https://story-api.dicoding.dev/images/stories/photos-1666493830313_Ajft3RCe.jpg",
+      "createdAt": "2022-10-23T02:57:10.316Z",
+      "lat": -8.1706731,
+      "lon": 112.2078284
+    },
+    {
+      "id": "story-SR250ujDqGR7ZlcK",
+      "name": "Dhony",
+      "description": "weehh",
+      "photoUrl": "https://story-api.dicoding.dev/images/stories/photos-1666493037925_bJfcZCjp.jpg",
+      "createdAt": "2022-10-23T02:43:57.926Z",
+      "lat": -7.309087190628701,
+      "lon": 112.72965241223574
+    },
+    {
+      "id": "story-K3OaTEyxy24v2IMo",
+      "name": "Indry Puji Lestari",
+      "description": "erfer",
+      "photoUrl": "https://story-api.dicoding.dev/images/stories/photos-1666492458841_RsJkUtYt.jpg",
+      "createdAt": "2022-10-23T02:34:18.842Z",
+      "lat": -2.5208540552595817,
+      "lon": 107.95660078525543
+    },
+    {
+      "id": "story--34bLktnRpTMvsTp",
+      "name": "Indry Puji Lestari",
+      "description": "erte",
+      "photoUrl": "https://story-api.dicoding.dev/images/stories/photos-1666492405291_7CYrn0bA.jpg",
+      "createdAt": "2022-10-23T02:33:25.292Z",
+      "lat": 2.594184278829938,
+      "lon": 98.3867197483778
+    },
+    {
+      "id": "story-N8Bp2pD4R9s2pNVV",
+      "name": "Sahroni",
+      "description": "test",
+      "photoUrl": "https://story-api.dicoding.dev/images/stories/photos-1666492301186_ocBsfSLk.jpg",
+      "createdAt": "2022-10-23T02:31:41.187Z",
+      "lat": 37.4219983,
+      "lon": -122.084
+    },
+    {
+      "id": "story-DY54GYNPUr6DDr1p",
+      "name": "Indry Puji Lestari",
+      "description": "afda",
+      "photoUrl": "https://story-api.dicoding.dev/images/stories/photos-1666492271573_-D_U8bfA.jpg",
+      "createdAt": "2022-10-23T02:31:11.574Z",
+      "lat": -2.392020684507632,
+      "lon": 102.62897092849016
+    },
+    {
+      "id": "story-jF8MXeKIIel4aNAD",
+      "name": "Indry Puji Lestari",
+      "description": "dfgd",
+      "photoUrl": "https://story-api.dicoding.dev/images/stories/photos-1666492144303_8WAB9BrF.jpg",
+      "createdAt": "2022-10-23T02:29:04.306Z",
+      "lat": 0.32323632290847515,
+      "lon": 101.67263399809599
+    },
+    {
+      "id": "story-g-irNmd5FUODL7oc",
+      "name": "Indry Puji Lestari",
+      "description": "afs",
+      "photoUrl": "https://story-api.dicoding.dev/images/stories/photos-1666492110379_d8N1d1U2.jpg",
+      "createdAt": "2022-10-23T02:28:30.379Z",
+      "lat": -2.141265733485828,
+      "lon": 103.34810100495815
+    },
+    {
+      "id": "story-WTrR9p5n0Dxw5y62",
+      "name": "Indry Puji Lestari",
+      "description": "sdgsd",
+      "photoUrl": "https://story-api.dicoding.dev/images/stories/photos-1666491826213_tfAnGV0R.jpg",
+      "createdAt": "2022-10-23T02:23:46.215Z",
+      "lat": -0.7456870336795153,
+      "lon": 116.11720561981201
+    },
+    {
+      "id": "story-AvWhCneXRifCVMcy",
+      "name": "Indry Puji Lestari",
+      "description": "dfgd",
+      "photoUrl": "https://story-api.dicoding.dev/images/stories/photos-1666491739235_bhkchcMP.jpg",
+      "createdAt": "2022-10-23T02:22:19.236Z",
+      "lat": -2.4558691425624617,
+      "lon": 111.21200624853373
+    },
+    {
+      "id": "story-mSClBkFgsXUJxZdF",
+      "name": "Indry Puji Lestari",
+      "description": "sd",
+      "photoUrl": "https://story-api.dicoding.dev/images/stories/photos-1666491663934_fhFma2QH.jpg",
+      "createdAt": "2022-10-23T02:21:03.936Z",
+      "lat": 2.3367341570110525,
+      "lon": 99.97827719897032
+    },
+    {
+      "id": "story-HGMe3z2-Zwy2Lo13",
+      "name": "o",
+      "description": "o",
+      "photoUrl": "https://story-api.dicoding.dev/images/stories/photos-1666491622782_lJEyRIjH.jpg",
+      "createdAt": "2022-10-23T02:20:22.782Z",
+      "lat": -6.8964273,
+      "lon": 107.5958131
+    },
+    {
+      "id": "story-zXeQtSn6k9mUTj8i",
+      "name": "Indry Puji Lestari",
+      "description": "asdsa",
+      "photoUrl": "https://story-api.dicoding.dev/images/stories/photos-1666491582171_GxTfG9h0.jpg",
+      "createdAt": "2022-10-23T02:19:42.172Z",
+      "lat": -1.7853296479868925,
+      "lon": 111.64336144924164
+    },
+    {
+      "id": "story-06zwxi8D3DEK8N5O",
+      "name": "Indry Puji Lestari",
+      "description": "sfdsd",
+      "photoUrl": "https://story-api.dicoding.dev/images/stories/photos-1666491510977_H-_CrGkk.jpg",
+      "createdAt": "2022-10-23T02:18:30.977Z",
+      "lat": -7.258949876955664,
+      "lon": 112.73538898676634
+    },
+    {
+      "id": "story-qBWE571iALpOIm8C",
+      "name": "Indry Puji Lestari",
+      "description": "sdfsd",
+      "photoUrl": "https://story-api.dicoding.dev/images/stories/photos-1666491458703_uLxSj6kK.jpg",
+      "createdAt": "2022-10-23T02:17:38.704Z",
+      "lat": -7.2597623910609475,
+      "lon": 112.74799235165119
+    },
+    {
+      "id": "story-ta7OxuEmz9iwA4tN",
+      "name": "Indry Puji Lestari",
+      "description": "zfas",
+      "photoUrl": "https://story-api.dicoding.dev/images/stories/photos-1666491219106_95p4yb1h.jpg",
+      "createdAt": "2022-10-23T02:13:39.106Z",
+      "lat": -6.3415109868896975,
+      "lon": 106.9295859709382
+    },
+    {
+      "id": "story-tZWmjIqhO3d090w3",
+      "name": "Indry Puji Lestari",
+      "description": "asdas",
+      "photoUrl": "https://story-api.dicoding.dev/images/stories/photos-1666491116188_V59s2iLb.jpg",
+      "createdAt": "2022-10-23T02:11:56.189Z",
+      "lat": -6.723895489026079,
+      "lon": 107.53624767065048
+    },
+    {
+      "id": "story-bLJuVFi31Myh-ElK",
+      "name": "Indry Puji Lestari",
+      "description": "ewr",
+      "photoUrl": "https://story-api.dicoding.dev/images/stories/photos-1666490951136_o3UfMsPr.jpg",
+      "createdAt": "2022-10-23T02:09:11.137Z",
+      "lat": -6.895822208543726,
+      "lon": 109.57367610186338
+    }
+  ]
+}

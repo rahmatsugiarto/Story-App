@@ -69,6 +69,28 @@
         app:layout_constraintTop_toBottomOf="@id/previewImageView"
         tools:ignore="RtlHardcoded" />
 
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/sw_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/location"
+        app:layout_constraintEnd_toEndOf="@+id/ed_add_description"
+        app:layout_constraintTop_toBottomOf="@+id/ed_add_description" />
+
+    <TextView
+        android:id="@+id/tv_location"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:textColor="@color/black"
+        android:visibility="gone"
+        app:drawableLeftCompat="@drawable/ic_location"
+        app:layout_constraintBottom_toBottomOf="@+id/sw_location"
+        app:layout_constraintEnd_toStartOf="@+id/sw_location"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/ed_add_description"
+        app:layout_constraintTop_toTopOf="@+id/sw_location" />
+
     <Button
         android:id="@+id/btn_gallery"
         android:layout_width="110dp"
@@ -89,10 +111,12 @@
         android:layout_marginTop="12dp"
         android:text="@string/camera"
         android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/button_add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/btn_gallery"
-        app:layout_constraintTop_toBottomOf="@+id/ed_add_description" />
+        app:layout_constraintTop_toBottomOf="@+id/sw_location"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/button_add"

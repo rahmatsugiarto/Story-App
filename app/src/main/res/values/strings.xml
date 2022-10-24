@@ -27,10 +27,10 @@
     <string name="no">No</string>
     <string name="logout">Logout</string>
     <string name="are_you_sure_logout">Are you sure to logout?</string>
-    <string name="timeout">"Timeout! please try again later"</string>
-    <string name="email_already_exists">"Email already exists"</string>
-    <string name="success_create_account">"Successfully created an account, now you can login"</string>
-    <string name="invalid_email_pass">""Invalid email or password""</string>
+    <string name="timeout">Timeout! please try again later</string>
+    <string name="email_already_exists">Email already exists</string>
+    <string name="success_create_account">Successfully created an account, now you can login</string>
+    <string name="invalid_email_pass">Invalid email or password</string>
     <string name="setting">Setting</string>
     <string name="no_data">No Data</string>
     <string name="image_priview">Image priview</string>
@@ -45,6 +45,15 @@
     <string name="failed_to_take_pictures">Failed to take pictures.</string>
     <string name="failed_to_bring_up_the_camera">Failed to bring up the camera.</string>
     <string name="went_something_wrong">Went something wrong</string>
-
+    <string name="didnt_get_permission">Didn\'t get permission.</string>
+    <string name="show_map">Show map</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="loading">Loading…</string>
+    <string name="location">location</string>
+    <string name="location_enable">Please enable your location</string>
+    <string name="location_denied">Location permission denied</string>
+    <string name="setting_location">Setting</string>
+    <string name="retry">Retry</string>
+    <string name="error">Error</string>
 
 </resources>

@@ -1,10 +1,13 @@
-package com.rakuseru.storyapp1.data.local
+package com.rs.storyapp.data.local.database
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "app_remote_keys")
+/**
+ * Created by Rahmat Sugiarto on 17/10/2022
+ */
+@Entity(tableName = "remote_key")
 data class RemoteKeyEntity(
     @ColumnInfo(name = "id")
     @PrimaryKey

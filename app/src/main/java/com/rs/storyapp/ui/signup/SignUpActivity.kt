@@ -7,19 +7,24 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
+import com.rs.storyapp.R
 import com.rs.storyapp.common.util.grabText
+import com.rs.storyapp.common.util.hideSoftKeyboard
 import com.rs.storyapp.common.util.isEmailValid
+import com.rs.storyapp.common.util.showToastShort
+import com.rs.storyapp.data.Result
 import com.rs.storyapp.databinding.ActivitySignUpBinding
 import com.rs.storyapp.model.request.RequestSignUp
 import com.rs.storyapp.viewmodels.SignUpViewModel
+import com.rs.storyapp.viewmodels.ViewModelFactory
 
 
 class SignUpActivity : AppCompatActivity() {
-    private val signUpViewModel: SignUpViewModel by viewModels()
+    private val signUpViewModel: SignUpViewModel by viewModels {
+        ViewModelFactory.getInstance(this)
+    }
     private val binding by lazy { ActivitySignUpBinding.inflate(layoutInflater) }
     private var name = ""
     private var email = ""
@@ -34,35 +39,55 @@ class SignUpActivity : AppCompatActivity() {
         validationEditText()
 
         binding.btnSignup.setOnClickListener {
+            hideSoftKeyboard()
+            binding.apply {
+                edRegisterEmail.clearFocus()
+                edRegisterName.clearFocus()
+                edRegisterPassword.clearFocus()
+            }
             name = binding.edRegisterName.grabText()
             email = binding.edRegisterEmail.grabText()
             pass = binding.edRegisterPassword.grabText()
 
             val newUser = RequestSignUp(name = name, email = email, password = pass)
-            signUpViewModel.getResponseRegister(newUser)
+
+            signUp(newUser)
+
         }
 
         binding.tvLogin.setOnClickListener {
             finish()
         }
+    }
 
+    private fun signUp(requestRegister: RequestSignUp) {
+        signUpViewModel.userSignUp(requestRegister).observe(this) { result ->
+            if (result != null) {
+                when (result) {
+                    is Result.Loading -> {
+                        binding.apply {
+                            progressCircular.visibility = View.VISIBLE
+                            btnSignup.isEnabled = false
 
-        signUpViewModel.isLoading.observe(this) { isLoading ->
-            binding.progressCircular.isVisible = isLoading
-            binding.btnSignup.isEnabled = !isLoading
-        }
-
-        signUpViewModel.message.observe(this) { message ->
-            Toast.makeText(this, getString(message), Toast.LENGTH_LONG).show()
-        }
-
-        signUpViewModel.messageWhenFailure.observe(this) { messageWhenFailure ->
-            Toast.makeText(this, messageWhenFailure, Toast.LENGTH_LONG).show()
-        }
-
-        signUpViewModel.isSuccessCreated.observe(this) { isCreated ->
-            if (isCreated) {
-                finish()
+                        }
+                    }
+                    is Result.Success -> {
+                        binding.progressCircular.visibility = View.GONE
+                        showToastShort(getString(R.string.success_create_account))
+                        finish()
+                    }
+                    is Result.Error -> {
+                        binding.progressCircular.visibility = View.GONE
+                        binding.btnSignup.isEnabled = true
+                        if (result.error.contains("400")) {
+                            showToastShort(getString(R.string.email_already_exists))
+                        } else if (result.error.contains("408")) {
+                            showToastShort(getString(R.string.timeout))
+                        } else {
+                            showToastShort(result.error)
+                        }
+                    }
+                }
             }
         }
     }

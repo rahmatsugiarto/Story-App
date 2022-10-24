@@ -1,4 +1,4 @@
-package com.rs.storyapp.data
+package com.rs.storyapp.utils
 
 import com.rs.storyapp.data.remote.ApiService
 import com.rs.storyapp.model.request.RequestLogin

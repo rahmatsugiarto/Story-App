@@ -2,12 +2,11 @@ package com.rs.storyapp.data.remote
 
 import com.rs.storyapp.model.request.RequestLogin
 import com.rs.storyapp.model.request.RequestSignUp
-import com.rs.storyapp.model.response.ResponseLogin
-import com.rs.storyapp.model.response.ResponseMessage
-import com.rs.storyapp.model.response.ResponseStory
+import com.rs.storyapp.model.response.LoginResponse
+import com.rs.storyapp.model.response.MessageResponse
+import com.rs.storyapp.model.response.StoryResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import retrofit2.Call
 import retrofit2.http.*
 
 /**
@@ -15,23 +14,28 @@ import retrofit2.http.*
  */
 interface ApiService {
     @POST("register")
-    fun signUp(
+    suspend fun userSignUp(
         @Body requestRegister: RequestSignUp
-    ): Call<ResponseMessage>
+    ): MessageResponse
 
     @POST("login")
-    fun getUserLogin(@Body requestLogin: RequestLogin): Call<ResponseLogin>
+    suspend fun userLogin(@Body requestLogin: RequestLogin): LoginResponse
 
     @GET("stories")
-    fun getStories(
-        @Header("Authorization") token: String
-    ): Call<ResponseStory>
+    suspend fun getStories(
+        @Header("Authorization") token: String,
+        @Query("page") page: Int? = null,
+        @Query("size") size: Int? = null,
+        @Query("location") location: Int? = null
+    ): StoryResponse
 
     @Multipart
     @POST("stories")
-    fun uploadImage(
+    suspend fun uploadImage(
         @Part file: MultipartBody.Part,
         @Part("description") description: RequestBody,
-        @Header("Authorization") token: String
-    ): Call<ResponseMessage>
+        @Header("Authorization") token: String,
+        @Part("lat") latitude: RequestBody?,
+        @Part("lon") longitude: RequestBody?,
+    ): MessageResponse
 }

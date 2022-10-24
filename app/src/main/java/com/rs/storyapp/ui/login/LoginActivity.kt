@@ -2,33 +2,29 @@ package com.rs.storyapp.ui.login
 
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
-import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
-import androidx.lifecycle.ViewModelProvider
-import com.rs.storyapp.common.util.goto
-import com.rs.storyapp.common.util.grabText
-import com.rs.storyapp.common.util.isEmailValid
-import com.rs.storyapp.data.local.DataUserPreference
+import com.rs.storyapp.R
+import com.rs.storyapp.common.util.*
+import com.rs.storyapp.data.Result
 import com.rs.storyapp.databinding.ActivityLoginBinding
 import com.rs.storyapp.model.request.RequestLogin
 import com.rs.storyapp.ui.liststory.ListStoryActivity
 import com.rs.storyapp.ui.signup.SignUpActivity
 import com.rs.storyapp.viewmodels.LoginViewModel
-import com.rs.storyapp.viewmodels.LoginViewModelFactory
+import com.rs.storyapp.viewmodels.ViewModelFactory
 
-val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user_pref")
 
 class LoginActivity : AppCompatActivity() {
     private val binding by lazy { ActivityLoginBinding.inflate(layoutInflater) }
+    private val loginViewModel: LoginViewModel by viewModels {
+        ViewModelFactory.getInstance(this)
+    }
     private var email = ""
     private var pass = ""
 
@@ -37,11 +33,6 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
         playAnimation()
 
-        val pref = DataUserPreference.getInstance(dataStore)
-        val loginViewModel = ViewModelProvider(
-            this,
-            LoginViewModelFactory(pref)
-        )[LoginViewModel::class.java]
 
         setMyButtonEnable()
         validationEditText()
@@ -51,42 +42,67 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.btnLogin.setOnClickListener {
+            hideSoftKeyboard()
+            binding.apply {
+                edLoginEmail.clearFocus()
+                edLoginPassword.clearFocus()
+            }
             email = binding.edLoginEmail.grabText()
             pass = binding.edLoginPassword.grabText()
 
             val requestLogin = RequestLogin(email = email, password = pass)
-            loginViewModel.login(requestLogin)
+            login(requestLogin)
         }
+    }
 
-        loginViewModel.isLoading.observe(this) { isLoading ->
-            binding.progressCircular.isVisible = isLoading
-            binding.btnLogin.isEnabled = !isLoading
-        }
+    private fun login(requestLogin: RequestLogin) {
+        loginViewModel.userLogin(requestLogin).observe(this) { result ->
+            if (result != null) {
+                when (result) {
+                    is Result.Loading -> {
+                        binding.progressCircular.visibility = View.VISIBLE
+                        binding.btnLogin.isEnabled = false
+                    }
+                    is Result.Success -> {
+                        binding.progressCircular.visibility = View.GONE
+                        loginViewModel.saveToken(result.data.loginResult.token)
+                        gotoWithToken(ListStoryActivity::class.java, result.data.loginResult.token)
+                        finish()
+                    }
+                    is Result.Error -> {
+                        binding.progressCircular.visibility = View.GONE
+                        binding.btnLogin.isEnabled = true
+                        Log.d("errorLogin", "login: ${result.error}")
 
-        loginViewModel.message.observe(this) { message ->
-            Toast.makeText(this, getString(message), Toast.LENGTH_LONG).show()
-        }
-
-        loginViewModel.messageWhenFailure.observe(this) { messageWhenFailure ->
-            Toast.makeText(this, messageWhenFailure, Toast.LENGTH_LONG).show()
-        }
-
-        loginViewModel.isSuccessLogin.observe(this) { isValidLogin ->
-            if (isValidLogin) {
-                goto(ListStoryActivity::class.java)
-                finish()
+                        if (result.error.contains("401")) {
+                            showToastShort(getString(R.string.invalid_email_pass))
+                        } else if (result.error.contains("408")) {
+                            showToastShort(getString(R.string.timeout))
+                        } else {
+                            showToastShort(result.error)
+                        }
+                    }
+                }
             }
         }
-
-
     }
 
     private fun validationEditText() {
         binding.edLoginEmail.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+            override fun beforeTextChanged(
+                s: CharSequence,
+                start: Int,
+                count: Int,
+                after: Int
+            ) {
             }
 
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+            override fun onTextChanged(
+                s: CharSequence,
+                start: Int,
+                before: Int,
+                count: Int
+            ) {
                 setMyButtonEnable()
             }
 
