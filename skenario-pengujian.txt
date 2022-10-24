@@ -1,0 +1,7 @@
+Unit test
+
+ListStoryModel
+
+-Ketika berhasil memuat data.
+--Memastikan data tidak null.
+--Memastikan jumlah data sesuai dengan yang diharapkan.

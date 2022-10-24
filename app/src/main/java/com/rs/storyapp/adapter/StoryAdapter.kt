@@ -1,30 +1,41 @@
-package com.rs.storyapp.ui.liststory
+package com.rs.storyapp.adapter
 
 import android.app.Activity
 import android.content.Intent
 import android.view.LayoutInflater
-import androidx.core.util.Pair
 import android.view.ViewGroup
 import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.rs.storyapp.R
-import com.rs.storyapp.common.util.DiffUtilStories
+import com.rs.storyapp.data.local.database.StoryEntity
 import com.rs.storyapp.databinding.RowStoryBinding
-import com.rs.storyapp.model.response.Story
 import com.rs.storyapp.ui.detailstory.DetailStoryActivity
 
 /**
  * Created by Rahmat Sugiarto on 30/09/2022
  */
-class StoryAdapter : RecyclerView.Adapter<StoryAdapter.MyViewHolder>() {
-    private var stories = emptyList<Story>()
+class StoryAdapter : PagingDataAdapter<StoryEntity, StoryAdapter.MyViewHolder>(DIFF_CALLBACK) {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+        val binding = RowStoryBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return MyViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
+        val data = getItem(position)
+        if (data != null) {
+            holder.bind(data)
+        }
+    }
 
     class MyViewHolder(private val binding: RowStoryBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(story: Story) {
+        fun bind(story: StoryEntity) {
             binding.tvItemName.text = story.name
             binding.ivItemPhoto.load(story.photoUrl) {
                 crossfade(true)
@@ -43,32 +54,19 @@ class StoryAdapter : RecyclerView.Adapter<StoryAdapter.MyViewHolder>() {
                 }
             }
         }
+    }
 
-        companion object {
-            fun from(parent: ViewGroup): MyViewHolder {
-                val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = RowStoryBinding.inflate(layoutInflater, parent, false)
-                return MyViewHolder(binding)
+
+    companion object {
+        val DIFF_CALLBACK = object : DiffUtil.ItemCallback<StoryEntity>() {
+            override fun areItemsTheSame(oldItem: StoryEntity, newItem: StoryEntity): Boolean {
+                return oldItem == newItem
+            }
+
+            override fun areContentsTheSame(oldItem: StoryEntity, newItem: StoryEntity): Boolean {
+                return oldItem.id == newItem.id
             }
         }
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        return MyViewHolder.from(parent)
-    }
-
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val currentStory = stories[position]
-        holder.bind(currentStory)
-    }
-
-    override fun getItemCount(): Int = stories.size
-
-    fun setData(newData: List<Story>) {
-        val recipesDiffUtil = DiffUtilStories(stories, newData)
-        val diffUtilResult = DiffUtil.calculateDiff(recipesDiffUtil)
-        stories = newData
-        diffUtilResult.dispatchUpdatesTo(this)
     }
 
 }

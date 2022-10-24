@@ -9,18 +9,6 @@ import androidx.datastore.preferences.core.Preferences
 
 class DataUserPreference private constructor(private val dataStore: DataStore<Preferences>) {
 
-    fun getIsLogin(): Flow<Boolean> {
-        return dataStore.data.map { pref ->
-            pref[IS_LOGIN] ?: false
-        }
-    }
-
-    suspend fun saveIsLogin(isLogin: Boolean) {
-        dataStore.edit { pref ->
-            pref[IS_LOGIN] = isLogin
-        }
-    }
-
     fun getToken(): Flow<String> {
         return dataStore.data.map { pref ->
             pref[USER_TOKEN] ?: ""
@@ -30,6 +18,12 @@ class DataUserPreference private constructor(private val dataStore: DataStore<Pr
     suspend fun saveToken(token: String) {
         dataStore.edit { pref ->
             pref[USER_TOKEN] = token
+        }
+    }
+
+    suspend fun deleteUser(){
+        dataStore.edit { preferences ->
+            preferences.clear()
         }
     }
 
