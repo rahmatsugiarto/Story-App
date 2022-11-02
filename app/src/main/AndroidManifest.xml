@@ -29,19 +29,12 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCN_aa6MSTyo4nSp5EgBzF8dPdkz91GhGg" />
+            android:value="token" />
 
         <activity
             android:name=".ui.maps.MapsActivity"
             android:exported="false"
             android:label="@string/title_activity_maps" />
-        <activity
-            android:name=".ui.addstory.CameraActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
         <activity
             android:name=".ui.addstory.AddStoryActivity"
             android:exported="false">

@@ -3,14 +3,14 @@ package com.rs.storyapp.viewmodels
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import com.rs.storyapp.data.Result
-import com.rs.storyapp.model.response.LoginResponse
 import com.rs.storyapp.model.response.StoryResponse
 import com.rs.storyapp.utils.DataDummy
 import com.rs.storyapp.utils.MainDispatcherRule
 import com.rs.storyapp.utils.getOrAwaitValue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -35,39 +35,55 @@ class MapsStoryViewModelTest{
     private lateinit var mapsStoryViewModel: MapsStoryViewModel
 
     private val dummyToken = "token"
-    private val dummyStoryResponse = DataDummy.generateDummyStoryResponse()
     private val expectedStoriesWithLocation = MutableLiveData<Result<StoryResponse>>()
 
 
     @Test
-    fun `when getStoriesWithLocation Should Not Null and Return LiveData(Result(StoryResponse))`() {
-        //init value
+    fun `when getStories with location Should Not Null and Return Result(Success)`() {
+        val dummyGetStoriesResponse = DataDummy.generateDummyStoryResponse()
+        expectedStoriesWithLocation.value = Result.Success(dummyGetStoriesResponse)
+
+        Mockito.`when`(mapsStoryViewModel.getStoriesWithLocation(dummyToken))
+            .thenReturn(expectedStoriesWithLocation)
+
+        val actualGetStories = mapsStoryViewModel.getStoriesWithLocation(dummyToken).getOrAwaitValue()
+
+        Mockito.verify(mapsStoryViewModel).getStoriesWithLocation(dummyToken)
+        assertNotNull(actualGetStories)
+        Assert.assertTrue(actualGetStories is Result.Success)
+        assertEquals(
+            dummyGetStoriesResponse.message,
+            (actualGetStories as Result.Success).data.message
+        )
+    }
+
+    @Test
+    fun `when getStories Should Not Null and Return Result(Loading)`() {
         expectedStoriesWithLocation.value = Result.Loading
 
-        Mockito.`when`(
-            mapsStoryViewModel.getStoriesWithLocation(dummyToken)
-        ).thenReturn(expectedStoriesWithLocation)
+        Mockito.`when`(mapsStoryViewModel.getStoriesWithLocation(dummyToken))
+            .thenReturn(expectedStoriesWithLocation)
 
+        val actualGetStories = mapsStoryViewModel.getStoriesWithLocation(dummyToken).getOrAwaitValue()
 
-        when (val actualUserLogin = mapsStoryViewModel.getStoriesWithLocation(dummyToken).getOrAwaitValue()) {
-            is Result.Loading -> {
-                expectedStoriesWithLocation.value = Result.Loading
-                assertEquals(expectedStoriesWithLocation.value, actualUserLogin)
-            }
-            is Result.Success -> {
-                expectedStoriesWithLocation.value = Result.Success(dummyStoryResponse)
-                assertNotNull(actualUserLogin)
-                assertEquals(expectedStoriesWithLocation.value, actualUserLogin)
-            }
-
-            is Result.Error -> {
-                expectedStoriesWithLocation.value = Result.Error("Error")
-                assertNotNull(actualUserLogin)
-                assertEquals(expectedStoriesWithLocation.value, actualUserLogin)
-
-            }
-        }
         Mockito.verify(mapsStoryViewModel).getStoriesWithLocation(dummyToken)
+        assertNotNull(actualGetStories)
+        Assert.assertTrue(actualGetStories is Result.Loading)
     }
+
+    @Test
+    fun `when getStories Should Not Null and Return Result(Error)`() {
+        expectedStoriesWithLocation.value = Result.Error("throw exception")
+
+        Mockito.`when`(mapsStoryViewModel.getStoriesWithLocation(dummyToken))
+            .thenReturn(expectedStoriesWithLocation)
+
+        val actualGetStories = mapsStoryViewModel.getStoriesWithLocation(dummyToken).getOrAwaitValue()
+
+        Mockito.verify(mapsStoryViewModel).getStoriesWithLocation(dummyToken)
+        assertNotNull(actualGetStories)
+        Assert.assertTrue(actualGetStories is Result.Error)
+    }
+    
 
 }

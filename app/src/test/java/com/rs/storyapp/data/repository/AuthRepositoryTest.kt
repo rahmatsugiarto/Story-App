@@ -60,23 +60,7 @@ class AuthRepositoryTest {
     }
 
     @Test
-    fun `when userLogin Should Not Null`() = runTest {
-        val expectedLogin = DataDummy.generateDummyLoginResponse()
-        val actualLogin = apiService.userLogin(dummyRequestLogin)
-        Assert.assertNotNull(actualLogin)
-        Assert.assertEquals(expectedLogin.message, actualLogin.message)
-    }
-
-    @Test
-    fun `when userSignUp Should Not Null`() = runTest {
-        val expectedLogin = DataDummy.generateDummyLoginResponse()
-        val actualSignUp = apiService.userSignUp(dummyRequestSignUp)
-        Assert.assertNotNull(actualSignUp)
-        Assert.assertEquals(expectedLogin.message, actualSignUp.message)
-    }
-
-    @Test
-    fun `when userLogin Should Not Null and Return Result(Success)`() = runTest {
+    fun `when userLogin Should Not Null and Return Result(Success)`() {
         val dummyLoginResponse = DataDummy.generateDummyLoginResponse()
         expectedLogin.value = Result.Success(dummyLoginResponse)
 

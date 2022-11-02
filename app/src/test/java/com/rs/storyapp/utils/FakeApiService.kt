@@ -6,7 +6,6 @@ import com.rs.storyapp.model.request.RequestSignUp
 import com.rs.storyapp.model.response.LoginResponse
 import com.rs.storyapp.model.response.MessageResponse
 import com.rs.storyapp.model.response.StoryResponse
-import com.rs.storyapp.utils.DataDummy
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
@@ -19,7 +18,7 @@ class FakeApiService : ApiService {
     private val dummyStoryResponse = DataDummy.generateDummyStoryResponse()
 
     override suspend fun userSignUp(requestRegister: RequestSignUp): MessageResponse {
-        return dummyMessageResponse;
+        return dummyMessageResponse
     }
 
     override suspend fun userLogin(requestLogin: RequestLogin): LoginResponse {
@@ -42,6 +41,6 @@ class FakeApiService : ApiService {
         latitude: RequestBody?,
         longitude: RequestBody?
     ): MessageResponse {
-        return dummyMessageResponse;
+        return dummyMessageResponse
     }
 }

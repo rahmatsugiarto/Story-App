@@ -33,18 +33,14 @@
     <string name="invalid_email_pass">Invalid email or password</string>
     <string name="setting">Setting</string>
     <string name="no_data">No Data</string>
+    <string name="story_not_found">Story not found</string>
     <string name="image_priview">Image priview</string>
-    <string name="take_photo">Take Photo</string>
-    <string name="switch_camera">Switch Camera</string>
     <string name="more">More</string>
     <string name="image_stoty">Image Stoty</string>
     <string name="like">Like</string>
     <string name="comment">Comment</string>
     <string name="to_share">to Share</string>
     <string name="bookmark">bookmark</string>
-    <string name="failed_to_take_pictures">Failed to take pictures.</string>
-    <string name="failed_to_bring_up_the_camera">Failed to bring up the camera.</string>
-    <string name="went_something_wrong">Went something wrong</string>
     <string name="didnt_get_permission">Didn\'t get permission.</string>
     <string name="show_map">Show map</string>
     <string name="title_activity_maps">MapsActivity</string>
@@ -54,6 +50,5 @@
     <string name="location_denied">Location permission denied</string>
     <string name="setting_location">Setting</string>
     <string name="retry">Retry</string>
-    <string name="error">Error</string>
 
 </resources>

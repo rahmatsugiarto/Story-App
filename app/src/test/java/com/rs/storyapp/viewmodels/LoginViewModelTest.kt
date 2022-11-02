@@ -42,7 +42,6 @@ class LoginViewModelTest {
 
     private val dummyToken = "token"
     private val dummyRequestLogin = DataDummy.generateDummyRequestLogin()
-    private val dummyLoginResponse = DataDummy.generateDummyLoginResponse()
     private val expectedUserLogin = MutableLiveData<Result<LoginResponse>>()
 
 
@@ -58,33 +57,48 @@ class LoginViewModelTest {
     }
 
     @Test
-    fun `when userLogin Should Not Null and Return LiveData(Result(LoginResponse))`() {
-        //init value
+    fun `when userLogin Should Not Null and Return Result(Success)`() {
+        val dummyLoginResponse = DataDummy.generateDummyLoginResponse()
+        expectedUserLogin.value = Result.Success(dummyLoginResponse)
+
+        Mockito.`when`(loginViewModelMock.userLogin(dummyRequestLogin)).thenReturn(expectedUserLogin)
+
+        val actualLogin = loginViewModelMock.userLogin(dummyRequestLogin).getOrAwaitValue()
+
+        Mockito.verify(loginViewModelMock).userLogin(dummyRequestLogin)
+        Assert.assertNotNull(actualLogin)
+        Assert.assertTrue(actualLogin is Result.Success)
+        Assert.assertEquals(
+            dummyLoginResponse.message,
+            (actualLogin as Result.Success).data.message
+        )
+    }
+
+    @Test
+    fun `when userLogin Should Not Null and Return Result(Loading)`() {
         expectedUserLogin.value = Result.Loading
 
-        Mockito.`when`(
-            loginViewModelMock.userLogin(dummyRequestLogin)
-        ).thenReturn(expectedUserLogin)
+        Mockito.`when`(loginViewModelMock.userLogin(dummyRequestLogin)).thenReturn(expectedUserLogin)
 
+        val actualLogin = loginViewModelMock.userLogin(dummyRequestLogin).getOrAwaitValue()
 
-        when (val actualUserLogin = loginViewModelMock.userLogin(dummyRequestLogin).getOrAwaitValue()) {
-            is Result.Loading -> {
-                expectedUserLogin.value = Result.Loading
-                Assert.assertEquals(expectedUserLogin.value, actualUserLogin)
-            }
-            is Result.Success -> {
-                expectedUserLogin.value = Result.Success(dummyLoginResponse)
-                Assert.assertNotNull(actualUserLogin)
-                Assert.assertEquals(expectedUserLogin.value, actualUserLogin)
-            }
-
-            is Result.Error -> {
-                expectedUserLogin.value = Result.Error("Error")
-                Assert.assertNotNull(actualUserLogin)
-                Assert.assertEquals(expectedUserLogin.value, actualUserLogin)
-
-            }
-        }
         Mockito.verify(loginViewModelMock).userLogin(dummyRequestLogin)
+        Assert.assertNotNull(actualLogin)
+        Assert.assertTrue(actualLogin is Result.Loading)
+    }
+
+
+
+    @Test
+    fun `when userLogin when userLogin Should Not Null and Return Result(Error)`() {
+        expectedUserLogin.value = Result.Error("throw exception")
+
+        Mockito.`when`(loginViewModelMock.userLogin(dummyRequestLogin)).thenReturn(expectedUserLogin)
+
+        val actualLogin = loginViewModelMock.userLogin(dummyRequestLogin).getOrAwaitValue()
+
+        Mockito.verify(loginViewModelMock).userLogin(dummyRequestLogin)
+        Assert.assertNotNull(actualLogin)
+        Assert.assertTrue(actualLogin is Result.Error)
     }
 }

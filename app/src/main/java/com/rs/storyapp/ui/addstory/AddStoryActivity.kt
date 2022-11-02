@@ -22,10 +22,12 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
 import com.rs.storyapp.R
-import com.rs.storyapp.common.util.*
+import com.rs.storyapp.common.util.createCustomTempFile
+import com.rs.storyapp.common.util.reduceFileImage
+import com.rs.storyapp.common.util.showToastShort
+import com.rs.storyapp.common.util.uriToFile
 import com.rs.storyapp.data.Result
 import com.rs.storyapp.databinding.ActivityAddStoryBinding
-import com.rs.storyapp.ui.liststory.ListStoryActivity.Companion.CAMERA_X_RESULT
 import com.rs.storyapp.viewmodels.AddStoryViewModel
 import com.rs.storyapp.viewmodels.ViewModelFactory
 import okhttp3.MediaType.Companion.toMediaType
@@ -49,7 +51,6 @@ class AddStoryActivity : AppCompatActivity() {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private var location: Location? = null
     private var getFile: File? = null
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,11 +81,6 @@ class AddStoryActivity : AppCompatActivity() {
         }
     }
 
-//    private fun startCameraX() {
-//        val intent = Intent(this, CameraActivity::class.java)
-//        launcherIntentCameraX.launch(intent)
-//    }
-
     private fun startTakePhoto() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         intent.resolveActivity(packageManager)
@@ -108,23 +104,6 @@ class AddStoryActivity : AppCompatActivity() {
         val chooser = Intent.createChooser(intent, "Choose a Picture")
         launcherIntentGallery.launch(chooser)
     }
-
-//    private val launcherIntentCameraX = registerForActivityResult(
-//        ActivityResultContracts.StartActivityForResult()
-//    ) {
-//        if (it.resultCode == CAMERA_X_RESULT) {
-//            val myFile = it.data?.getSerializableExtra(CameraActivity.PICTURE_KEY) as File
-//            val isBackCamera =
-//                it.data?.getBooleanExtra(CameraActivity.ISBACKCAMERA_KEY, true) as Boolean
-//            getFile = myFile
-//            val result = rotateBitmap(
-//                BitmapFactory.decodeFile(myFile.path),
-//                isBackCamera
-//            )
-//
-//            binding.previewImageView.setImageBitmap(result)
-//        }
-//    }
 
     private val launcherIntentCamera = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -192,6 +171,7 @@ class AddStoryActivity : AppCompatActivity() {
                             when (result) {
                                 is Result.Loading -> {
                                     binding.progressCircular.visibility = View.VISIBLE
+                                    binding.buttonAdd.isEnabled = false
                                 }
                                 is Result.Success -> {
                                     binding.progressCircular.visibility = View.GONE
@@ -201,6 +181,7 @@ class AddStoryActivity : AppCompatActivity() {
                                 }
                                 is Result.Error -> {
                                     binding.progressCircular.visibility = View.GONE
+                                    binding.buttonAdd.isEnabled = true
                                     Toast.makeText(this, result.error, Toast.LENGTH_LONG).show()
                                 }
                             }

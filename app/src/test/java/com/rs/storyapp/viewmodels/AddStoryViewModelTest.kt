@@ -4,16 +4,14 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.ExperimentalPagingApi
 import com.rs.storyapp.data.Result
-import com.rs.storyapp.data.repository.AuthRepository
-import com.rs.storyapp.data.repository.StoryRepository
 import com.rs.storyapp.model.response.MessageResponse
 import com.rs.storyapp.utils.DataDummy
 import com.rs.storyapp.utils.MainDispatcherRule
 import com.rs.storyapp.utils.getOrAwaitValue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -52,16 +50,82 @@ class AddStoryViewModelTest {
         Mockito.`when`(addStoryViewModelMock.getToken()).thenReturn(expectedGetToken)
         val actualToken = addStoryViewModelMock.getToken().getOrAwaitValue()
 
+        Mockito.verify(addStoryViewModelMock).getToken()
         assertNotNull(actualToken)
         assertEquals(dummyToken, actualToken)
     }
 
+    @Test
+    fun `when addStory Should Not Null and Return Result(Success)`() {
+        val dummyAddStoryResponse = DataDummy.generateDummyMessageResponse()
+        expectedAddStory.value = Result.Success(dummyAddStoryResponse)
+
+        checkExpectedAddStoryFromFunctionAddStory(expectedAddStory)
+        val actualAddStory = actualAddStory()
+
+        Mockito.verify(addStoryViewModelMock).addStory(
+            dummyMultipart,
+            dummyDescription,
+            dummyToken,
+            null,
+            null
+        )
+        assertNotNull(actualAddStory)
+        Assert.assertTrue(actualAddStory is Result.Success)
+        assertEquals(
+            dummyAddStoryResponse.message,
+            (actualAddStory as Result.Success).data.message
+        )
+    }
 
     @Test
-    fun `when addStory Should Not Null and Return LiveData(Result(MessageResponse))`() {
-        //init value
+    fun `when addStory Should Not Null and Return Result(Loading)`() {
         expectedAddStory.value = Result.Loading
 
+        checkExpectedAddStoryFromFunctionAddStory(expectedAddStory)
+        val actualAddStory = actualAddStory()
+
+        Mockito.verify(addStoryViewModelMock).addStory(
+            dummyMultipart,
+            dummyDescription,
+            dummyToken,
+            null,
+            null
+        )
+        assertNotNull(actualAddStory)
+        Assert.assertTrue(actualAddStory is Result.Loading)
+    }
+
+
+    @Test
+    fun `when addStory when userLogin Should Not Null and Return Result(Error)`() {
+        expectedAddStory.value = Result.Error("Error")
+
+        checkExpectedAddStoryFromFunctionAddStory(expectedAddStory)
+        val actualAddStory = actualAddStory()
+
+        Mockito.verify(addStoryViewModelMock).addStory(
+            dummyMultipart,
+            dummyDescription,
+            dummyToken,
+            null,
+            null
+        )
+        assertNotNull(actualAddStory)
+        Assert.assertTrue(actualAddStory is Result.Error)
+    }
+
+    private fun actualAddStory(): Result<MessageResponse> {
+        return addStoryViewModelMock.addStory(
+            dummyMultipart,
+            dummyDescription,
+            dummyToken,
+            null,
+            null
+        ).getOrAwaitValue()
+    }
+
+    private fun checkExpectedAddStoryFromFunctionAddStory(expectedAddStory: MutableLiveData<Result<MessageResponse>>) {
         Mockito.`when`(
             addStoryViewModelMock.addStory(
                 dummyMultipart,
@@ -71,41 +135,5 @@ class AddStoryViewModelTest {
                 null
             )
         ).thenReturn(expectedAddStory)
-
-
-        val actualAddStory = addStoryViewModelMock.addStory(
-            dummyMultipart,
-            dummyDescription,
-            dummyToken,
-            null,
-            null
-        ).getOrAwaitValue()
-
-        when (actualAddStory) {
-            is Result.Loading -> {
-                expectedAddStory.value = Result.Loading
-                assertEquals(expectedAddStory.value, actualAddStory)
-            }
-            is Result.Success -> {
-                expectedAddStory.value = Result.Success(DataDummy.generateDummyMessageResponse())
-                assertNotNull(actualAddStory)
-                assertEquals(expectedAddStory.value, actualAddStory)
-            }
-
-            is Result.Error -> {
-                expectedAddStory.value = Result.Error("Error")
-                assertNotNull(actualAddStory)
-                assertEquals(expectedAddStory.value, actualAddStory)
-
-            }
-        }
-
-        Mockito.verify(addStoryViewModelMock).addStory(
-            dummyMultipart,
-            dummyDescription,
-            dummyToken,
-            null,
-            null
-        )
     }
 }

@@ -5,7 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import com.rs.storyapp.utils.MainDispatcherRule
 import com.rs.storyapp.utils.getOrAwaitValue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -39,6 +40,7 @@ class SplashScreenViewModelTest{
         Mockito.`when`(splashScreenViewModel.getToken()).thenReturn(expectedGetToken)
         val actualToken = splashScreenViewModel.getToken().getOrAwaitValue()
 
+        Mockito.verify(splashScreenViewModel).getToken()
         assertNotNull(actualToken)
         assertEquals(dummyToken, actualToken)
     }

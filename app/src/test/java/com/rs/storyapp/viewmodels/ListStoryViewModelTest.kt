@@ -5,10 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.paging.AsyncPagingDataDiffer
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.ListUpdateCallback
+import com.rs.storyapp.adapter.StoryAdapter
 import com.rs.storyapp.data.local.database.StoryEntity
 import com.rs.storyapp.data.repository.AuthRepository
 import com.rs.storyapp.data.repository.StoryRepository
-import com.rs.storyapp.adapter.StoryAdapter
 import com.rs.storyapp.utils.DataDummy
 import com.rs.storyapp.utils.MainDispatcherRule
 import com.rs.storyapp.utils.StoryPagingSource
@@ -61,7 +61,6 @@ class ListStoryViewModelTest {
         expectedStory.value = data
         Mockito.`when`(storyRepository.getStories(dummyToken)).thenReturn(expectedStory)
 
-        val listStoryViewModel = ListStoryViewModel(authRepository, storyRepository)
         val actualStory: PagingData<StoryEntity> =
             listStoryViewModel.getStories(dummyToken).getOrAwaitValue()
 

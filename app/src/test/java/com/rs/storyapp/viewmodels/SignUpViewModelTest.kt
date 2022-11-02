@@ -8,7 +8,9 @@ import com.rs.storyapp.utils.DataDummy
 import com.rs.storyapp.utils.MainDispatcherRule
 import com.rs.storyapp.utils.getOrAwaitValue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.junit.Assert.*
+import org.junit.Assert
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -32,39 +34,51 @@ class SignUpViewModelTest{
     private lateinit var signUpViewModel: SignUpViewModel
 
     private val dummyRequestSignUp = DataDummy.generateDummyRequestSignUp()
-    private val dummyMessageResponse = DataDummy.generateDummyMessageResponse()
-    private val expectedStoriesWithLocation = MutableLiveData<Result<MessageResponse>>()
+    private val expectedSignUp = MutableLiveData<Result<MessageResponse>>()
 
 
     @Test
-    fun `when userSignUp Should Not Null and Return LiveData(Result(RequestSignUp))`() {
-        //init value
-        expectedStoriesWithLocation.value = Result.Loading
+    fun `when userSignUp Should Not Null and Return Result(Success)`() {
+        val dummySignUpResponse = DataDummy.generateDummyMessageResponse()
+        expectedSignUp.value = Result.Success(dummySignUpResponse)
 
-        Mockito.`when`(
-            signUpViewModel.userSignUp(dummyRequestSignUp)
-        ).thenReturn(expectedStoriesWithLocation)
+        Mockito.`when`(signUpViewModel.userSignUp(dummyRequestSignUp)).thenReturn(expectedSignUp)
 
+        val actualSignUp = signUpViewModel.userSignUp(dummyRequestSignUp).getOrAwaitValue()
 
-        when (val actualUserSignUp = signUpViewModel.userSignUp(dummyRequestSignUp).getOrAwaitValue()) {
-            is Result.Loading -> {
-                expectedStoriesWithLocation.value = Result.Loading
-                assertEquals(expectedStoriesWithLocation.value, actualUserSignUp)
-            }
-            is Result.Success -> {
-                expectedStoriesWithLocation.value = Result.Success(dummyMessageResponse)
-                assertNotNull(actualUserSignUp)
-                assertEquals(expectedStoriesWithLocation.value, actualUserSignUp)
-            }
-
-            is Result.Error -> {
-                expectedStoriesWithLocation.value = Result.Error("Error")
-                assertNotNull(actualUserSignUp)
-                assertEquals(expectedStoriesWithLocation.value, actualUserSignUp)
-
-            }
-        }
         Mockito.verify(signUpViewModel).userSignUp(dummyRequestSignUp)
+        assertNotNull(actualSignUp)
+        Assert.assertTrue(actualSignUp is Result.Success)
+        assertEquals(
+            dummySignUpResponse.message,
+            (actualSignUp as Result.Success).data.message
+        )
+    }
+
+    @Test
+    fun `when userSignUp Should Not Null and Return Result(Loading)`() {
+        expectedSignUp.value = Result.Loading
+
+        Mockito.`when`(signUpViewModel.userSignUp(dummyRequestSignUp)).thenReturn(expectedSignUp)
+
+        val actualSignUp = signUpViewModel.userSignUp(dummyRequestSignUp).getOrAwaitValue()
+
+        Mockito.verify(signUpViewModel).userSignUp(dummyRequestSignUp)
+        assertNotNull(actualSignUp)
+        Assert.assertTrue(actualSignUp is Result.Loading)
+    }
+
+    @Test
+    fun `when userSignUp Should Not Null and Return Result(Error)`() {
+        expectedSignUp.value = Result.Error("throw exception")
+
+        Mockito.`when`(signUpViewModel.userSignUp(dummyRequestSignUp)).thenReturn(expectedSignUp)
+
+        val actualSignUp = signUpViewModel.userSignUp(dummyRequestSignUp).getOrAwaitValue()
+
+        Mockito.verify(signUpViewModel).userSignUp(dummyRequestSignUp)
+        assertNotNull(actualSignUp)
+        Assert.assertTrue(actualSignUp is Result.Error)
     }
 
 }

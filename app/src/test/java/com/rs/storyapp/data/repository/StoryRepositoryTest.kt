@@ -89,23 +89,6 @@ class StoryRepositoryTest {
 
 
     @Test
-    fun `when getStories with location Should Not Null`() = runTest {
-        val expectedStoryResponse = DataDummy.generateDummyStoryResponse()
-        val actualStoryResponse = apiService.getStories(dummyToken, size = 20, location = 1)
-        assertNotNull(actualStoryResponse)
-        assertEquals(expectedStoryResponse.message, actualStoryResponse.message)
-    }
-
-    @Test
-    fun `when uploadImage Should Not Null`() = runTest {
-        val expectedStoryResponse = DataDummy.generateDummyMessageResponse()
-        val actualStoryResponse =
-            apiService.uploadImage(dummyMultipart, dummyDescription, dummyToken, null, null)
-        assertNotNull(actualStoryResponse)
-        assertEquals(expectedStoryResponse.message, actualStoryResponse.message)
-    }
-
-    @Test
     fun `when getStories with location Should Not Null and Return Result(Success)`() {
         val dummyGetStoriesResponse = DataDummy.generateDummyStoryResponse()
         expectedGetStories.value = Result.Success(dummyGetStoriesResponse)

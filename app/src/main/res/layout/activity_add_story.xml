@@ -39,22 +39,21 @@
     <ImageView
         android:id="@+id/previewImageView"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="0dp"
         android:adjustViewBounds="true"
+        android:contentDescription="@string/image_priview"
         android:src="@drawable/ic_add_a_photo"
+        app:layout_constraintBottom_toTopOf="@+id/guideline1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appBarLayout"
-        android:contentDescription="@string/image_priview" />
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout" />
 
     <EditText
         android:id="@+id/ed_add_description"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:layout_marginStart="12dp"
+        android:layout_height="0dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="12dp"
         android:autofillHints="Description"
         android:background="@drawable/outline"
         android:gravity="top|left"
@@ -63,10 +62,12 @@
         android:maxWidth="360dp"
         android:maxHeight="180dp"
         android:padding="8dp"
+        android:layout_margin="12dp"
         android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/previewImageView"
+        app:layout_constraintTop_toBottomOf="@id/guideline1"
         tools:ignore="RtlHardcoded" />
 
     <androidx.appcompat.widget.SwitchCompat
@@ -84,6 +85,7 @@
         android:layout_marginEnd="16dp"
         android:textColor="@color/black"
         android:visibility="gone"
+        android:text="@string/loading"
         app:drawableLeftCompat="@drawable/ic_location"
         app:layout_constraintBottom_toBottomOf="@+id/sw_location"
         app:layout_constraintEnd_toStartOf="@+id/sw_location"
@@ -128,5 +130,19 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.45" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.7" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

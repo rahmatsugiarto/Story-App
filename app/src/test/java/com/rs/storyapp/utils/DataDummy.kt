@@ -87,11 +87,4 @@ object DataDummy {
         val dummyText = "text"
         return dummyText.toRequestBody()
     }
-
-    fun generateDummyFileUploadResponse(): MessageResponse {
-        return MessageResponse(
-            error = false,
-            message = "success"
-        )
-    }
 }

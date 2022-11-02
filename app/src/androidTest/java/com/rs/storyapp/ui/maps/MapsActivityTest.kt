@@ -9,7 +9,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import com.rs.storyapp.R
 import com.rs.storyapp.common.util.EspressoIdlingResource
-import com.rs.storyapp.data.remote.ApiConfig
+import com.rs.storyapp.data.remote.ApiConfig.BASE_URL
 import com.rs.storyapp.utils.JsonConverter
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -30,7 +30,7 @@ class MapsActivityTest {
     @Before
     fun setUp() {
         mockWebServer.start(8080)
-        ApiConfig.BASE_URL = "http://127.0.0.1:8080/"
+        BASE_URL = "http://127.0.0.1:8080/"
         IdlingRegistry.getInstance().register(EspressoIdlingResource.countingIdlingResource)
     }
 

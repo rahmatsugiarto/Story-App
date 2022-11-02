@@ -6,7 +6,6 @@ import coil.load
 import com.rs.storyapp.R
 import com.rs.storyapp.data.local.database.StoryEntity
 import com.rs.storyapp.databinding.ActivityDetailStoryBinding
-import com.rs.storyapp.model.response.Story
 
 
 class DetailStoryActivity : AppCompatActivity() {
