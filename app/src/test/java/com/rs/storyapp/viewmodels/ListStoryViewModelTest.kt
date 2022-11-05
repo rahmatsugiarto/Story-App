@@ -1,4 +1,4 @@
-package com.rs.storyapp.viewmodels
+ package com.rs.storyapp.viewmodels
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
@@ -51,7 +51,6 @@ class ListStoryViewModelTest {
     fun setUp() {
         listStoryViewModel = ListStoryViewModel(authRepository, storyRepository)
     }
-
 
     @Test
     fun `when Get Story Should Not Null and Return Success`() = runTest {

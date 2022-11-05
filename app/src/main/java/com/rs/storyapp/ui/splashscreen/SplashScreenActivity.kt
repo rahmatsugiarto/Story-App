@@ -9,6 +9,7 @@ import android.os.Looper
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.rs.storyapp.common.util.goto
 import com.rs.storyapp.common.util.gotoWithToken
 import com.rs.storyapp.databinding.ActivitySplashScreenBinding
@@ -16,6 +17,7 @@ import com.rs.storyapp.ui.liststory.ListStoryActivity
 import com.rs.storyapp.ui.login.LoginActivity
 import com.rs.storyapp.viewmodels.SplashScreenViewModel
 import com.rs.storyapp.viewmodels.ViewModelFactory
+import kotlinx.coroutines.launch
 
 @SuppressLint("CustomSplashScreen")
 class SplashScreenActivity : AppCompatActivity() {
@@ -32,15 +34,29 @@ class SplashScreenActivity : AppCompatActivity() {
 
         val delaySplashScreen = 2000L
         Handler(Looper.getMainLooper()).postDelayed({
-            splashScreenViewModel.getToken().observe(this) { token ->
-                if (token == "") {
-                    goto(LoginActivity::class.java)
 
-                } else {
-                    gotoWithToken(ListStoryActivity::class.java, token)
+            lifecycleScope.launchWhenCreated {
+                launch {
+                    splashScreenViewModel.getToken().collect { token ->
+                        if (token == "") {
+                            goto(LoginActivity::class.java)
+                        } else {
+                            gotoWithToken(ListStoryActivity::class.java, token.toString())
+                        }
+                    }
+                    finish()
                 }
-                finish()
             }
+
+//            splashScreenViewModel.getToken().observe(this) { token ->
+//                if (token == "") {
+//                    goto(LoginActivity::class.java)
+//
+//                } else {
+//                    gotoWithToken(ListStoryActivity::class.java, token)
+//                }
+//                finish()
+//            }
         }, delaySplashScreen)
     }
 

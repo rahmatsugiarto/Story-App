@@ -3,6 +3,7 @@ package com.rs.storyapp.viewmodels
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import com.rs.storyapp.data.Result
+import com.rs.storyapp.data.repository.AuthRepository
 import com.rs.storyapp.model.response.MessageResponse
 import com.rs.storyapp.utils.DataDummy
 import com.rs.storyapp.utils.MainDispatcherRule
@@ -11,6 +12,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -23,7 +25,7 @@ import org.mockito.junit.MockitoJUnitRunner
  */
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
-class SignUpViewModelTest{
+class SignUpViewModelTest {
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
 
@@ -31,11 +33,17 @@ class SignUpViewModelTest{
     val mainDispatcherRules = MainDispatcherRule()
 
     @Mock
+    private lateinit var authRepository: AuthRepository
+
     private lateinit var signUpViewModel: SignUpViewModel
 
     private val dummyRequestSignUp = DataDummy.generateDummyRequestSignUp()
     private val expectedSignUp = MutableLiveData<Result<MessageResponse>>()
 
+    @Before
+    fun setup() {
+        signUpViewModel = SignUpViewModel(authRepository)
+    }
 
     @Test
     fun `when userSignUp Should Not Null and Return Result(Success)`() {
@@ -46,7 +54,7 @@ class SignUpViewModelTest{
 
         val actualSignUp = signUpViewModel.userSignUp(dummyRequestSignUp).getOrAwaitValue()
 
-        Mockito.verify(signUpViewModel).userSignUp(dummyRequestSignUp)
+        Mockito.verify(authRepository).userSignUp(dummyRequestSignUp)
         assertNotNull(actualSignUp)
         Assert.assertTrue(actualSignUp is Result.Success)
         assertEquals(
@@ -58,12 +66,11 @@ class SignUpViewModelTest{
     @Test
     fun `when userSignUp Should Not Null and Return Result(Loading)`() {
         expectedSignUp.value = Result.Loading
-
         Mockito.`when`(signUpViewModel.userSignUp(dummyRequestSignUp)).thenReturn(expectedSignUp)
 
         val actualSignUp = signUpViewModel.userSignUp(dummyRequestSignUp).getOrAwaitValue()
 
-        Mockito.verify(signUpViewModel).userSignUp(dummyRequestSignUp)
+        Mockito.verify(authRepository).userSignUp(dummyRequestSignUp)
         assertNotNull(actualSignUp)
         Assert.assertTrue(actualSignUp is Result.Loading)
     }
@@ -71,12 +78,11 @@ class SignUpViewModelTest{
     @Test
     fun `when userSignUp Should Not Null and Return Result(Error)`() {
         expectedSignUp.value = Result.Error("throw exception")
-
         Mockito.`when`(signUpViewModel.userSignUp(dummyRequestSignUp)).thenReturn(expectedSignUp)
 
         val actualSignUp = signUpViewModel.userSignUp(dummyRequestSignUp).getOrAwaitValue()
 
-        Mockito.verify(signUpViewModel).userSignUp(dummyRequestSignUp)
+        Mockito.verify(authRepository).userSignUp(dummyRequestSignUp)
         assertNotNull(actualSignUp)
         Assert.assertTrue(actualSignUp is Result.Error)
     }

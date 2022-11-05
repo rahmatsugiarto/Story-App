@@ -21,12 +21,14 @@ class StoryRepository(private val apiService: ApiService, private val database: 
 
     @OptIn(ExperimentalPagingApi::class)
     fun getStories(token: String): LiveData<PagingData<StoryEntity>> {
+        wrapEspressoIdlingResource {
             return Pager(
                 config = PagingConfig(pageSize = 5),
                 remoteMediator = StoryRemoteMediator(token, database, apiService),
                 pagingSourceFactory = {
                     database.storyDao().getAllStories()
                 }).liveData
+        }
     }
 
     fun getStoriesWithLocation(

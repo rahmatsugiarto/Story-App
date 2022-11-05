@@ -83,7 +83,7 @@ object DataDummy {
         return MultipartBody.Part.create(dummyText.toRequestBody())
     }
 
-    fun generateDummyRequestBody(): RequestBody {
+    fun generateDummyDescRequestBody(): RequestBody {
         val dummyText = "text"
         return dummyText.toRequestBody()
     }

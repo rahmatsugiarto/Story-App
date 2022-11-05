@@ -1,10 +1,9 @@
 package com.rs.storyapp.viewmodels
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import com.rs.storyapp.data.repository.AuthRepository
 import com.rs.storyapp.data.repository.StoryRepository
+import kotlinx.coroutines.flow.Flow
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
@@ -25,7 +24,5 @@ class AddStoryViewModel(
     ) =
         storyRepository.uploadImage(file, desc, token, latitude, longitude)
 
-    fun getToken(): LiveData<String> {
-        return authRepository.getToken().asLiveData()
-    }
+    fun getToken(): Flow<String?> = authRepository.getToken()
 }

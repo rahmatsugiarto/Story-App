@@ -3,6 +3,7 @@ package com.rs.storyapp.viewmodels
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import com.rs.storyapp.data.Result
+import com.rs.storyapp.data.repository.StoryRepository
 import com.rs.storyapp.model.response.StoryResponse
 import com.rs.storyapp.utils.DataDummy
 import com.rs.storyapp.utils.MainDispatcherRule
@@ -11,6 +12,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -23,7 +25,7 @@ import org.mockito.junit.MockitoJUnitRunner
  */
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
-class MapsStoryViewModelTest{
+class MapsStoryViewModelTest {
 
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
@@ -32,11 +34,18 @@ class MapsStoryViewModelTest{
     val mainDispatcherRules = MainDispatcherRule()
 
     @Mock
+    private lateinit var storyRepository: StoryRepository
+
     private lateinit var mapsStoryViewModel: MapsStoryViewModel
 
     private val dummyToken = "token"
     private val expectedStoriesWithLocation = MutableLiveData<Result<StoryResponse>>()
 
+
+    @Before
+    fun setup() {
+        mapsStoryViewModel = MapsStoryViewModel(storyRepository)
+    }
 
     @Test
     fun `when getStories with location Should Not Null and Return Result(Success)`() {
@@ -46,9 +55,10 @@ class MapsStoryViewModelTest{
         Mockito.`when`(mapsStoryViewModel.getStoriesWithLocation(dummyToken))
             .thenReturn(expectedStoriesWithLocation)
 
-        val actualGetStories = mapsStoryViewModel.getStoriesWithLocation(dummyToken).getOrAwaitValue()
+        val actualGetStories =
+            mapsStoryViewModel.getStoriesWithLocation(dummyToken).getOrAwaitValue()
 
-        Mockito.verify(mapsStoryViewModel).getStoriesWithLocation(dummyToken)
+        Mockito.verify(storyRepository).getStoriesWithLocation(dummyToken)
         assertNotNull(actualGetStories)
         Assert.assertTrue(actualGetStories is Result.Success)
         assertEquals(
@@ -64,9 +74,10 @@ class MapsStoryViewModelTest{
         Mockito.`when`(mapsStoryViewModel.getStoriesWithLocation(dummyToken))
             .thenReturn(expectedStoriesWithLocation)
 
-        val actualGetStories = mapsStoryViewModel.getStoriesWithLocation(dummyToken).getOrAwaitValue()
+        val actualGetStories =
+            mapsStoryViewModel.getStoriesWithLocation(dummyToken).getOrAwaitValue()
 
-        Mockito.verify(mapsStoryViewModel).getStoriesWithLocation(dummyToken)
+        Mockito.verify(storyRepository).getStoriesWithLocation(dummyToken)
         assertNotNull(actualGetStories)
         Assert.assertTrue(actualGetStories is Result.Loading)
     }
@@ -78,12 +89,11 @@ class MapsStoryViewModelTest{
         Mockito.`when`(mapsStoryViewModel.getStoriesWithLocation(dummyToken))
             .thenReturn(expectedStoriesWithLocation)
 
-        val actualGetStories = mapsStoryViewModel.getStoriesWithLocation(dummyToken).getOrAwaitValue()
+        val actualGetStories =
+            mapsStoryViewModel.getStoriesWithLocation(dummyToken).getOrAwaitValue()
 
-        Mockito.verify(mapsStoryViewModel).getStoriesWithLocation(dummyToken)
+        Mockito.verify(storyRepository).getStoriesWithLocation(dummyToken)
         assertNotNull(actualGetStories)
         Assert.assertTrue(actualGetStories is Result.Error)
     }
-    
-
 }

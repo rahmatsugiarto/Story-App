@@ -18,6 +18,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
@@ -30,6 +31,7 @@ import com.rs.storyapp.data.Result
 import com.rs.storyapp.databinding.ActivityAddStoryBinding
 import com.rs.storyapp.viewmodels.AddStoryViewModel
 import com.rs.storyapp.viewmodels.ViewModelFactory
+import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -59,8 +61,13 @@ class AddStoryActivity : AppCompatActivity() {
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
 
-        addStoryViewModel.getToken().observe(this) { token ->
-            this.token = token
+
+        lifecycleScope.launchWhenCreated {
+            launch {
+                addStoryViewModel.getToken().collect { authToken ->
+                    if (!authToken.isNullOrEmpty()) token = authToken
+                }
+            }
         }
 
         binding.apply {

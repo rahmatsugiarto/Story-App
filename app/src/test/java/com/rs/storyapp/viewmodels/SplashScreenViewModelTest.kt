@@ -2,11 +2,14 @@ package com.rs.storyapp.viewmodels
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
+import com.rs.storyapp.data.repository.AuthRepository
 import com.rs.storyapp.utils.MainDispatcherRule
-import com.rs.storyapp.utils.getOrAwaitValue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -19,7 +22,7 @@ import org.mockito.junit.MockitoJUnitRunner
  */
 @ExperimentalCoroutinesApi
 @RunWith(MockitoJUnitRunner::class)
-class SplashScreenViewModelTest{
+class SplashScreenViewModelTest {
 
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
@@ -28,20 +31,28 @@ class SplashScreenViewModelTest{
     val mainDispatcherRule = MainDispatcherRule()
 
     @Mock
+    private lateinit var authRepository: AuthRepository
+
     private lateinit var splashScreenViewModel: SplashScreenViewModel
 
     private val dummyToken = "token"
-    private val expectedGetToken = MutableLiveData<String>()
+
+    @Before
+    fun setup() {
+        splashScreenViewModel = SplashScreenViewModel(authRepository)
+    }
 
     @Test
-    fun `when getToken successfully`() {
-        expectedGetToken.value = dummyToken
+    fun `when getToken successfully`() = runTest {
+        val expectedToken = flowOf(dummyToken)
 
-        Mockito.`when`(splashScreenViewModel.getToken()).thenReturn(expectedGetToken)
-        val actualToken = splashScreenViewModel.getToken().getOrAwaitValue()
+        Mockito.`when`(splashScreenViewModel.getToken()).thenReturn(expectedToken)
 
-        Mockito.verify(splashScreenViewModel).getToken()
-        assertNotNull(actualToken)
-        assertEquals(dummyToken, actualToken)
+        splashScreenViewModel.getToken().collect { actualToken ->
+            assertNotNull(actualToken)
+            assertEquals(dummyToken, actualToken)
+        }
+
+        Mockito.verify(authRepository).getToken()
     }
 }

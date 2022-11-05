@@ -66,7 +66,6 @@ class ListStoryActivity : AppCompatActivity() {
             )
         }
 
-
         setRecyclerView()
         getStories()
 
@@ -138,26 +137,22 @@ class ListStoryActivity : AppCompatActivity() {
         )
     }
 
-    override fun onResume() {
-        super.onResume()
-        getStories()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        getStories()
-    }
+//    override fun onResume() {
+//        super.onResume()
+//        getStories()
+//        storyAdapter.refresh()
+//    }
+//
+//    override fun onPause() {
+//        super.onPause()
+//        getStories()
+//        storyAdapter.refresh()
+//    }
 
 
     private fun updateRecyclerViewData(stories: PagingData<StoryEntity>) {
-        // SaveInstanceState of recyclerview before add new data
-        // It's prevent the recyclerview to scroll again to the top when load new data
         val recyclerViewState = binding.rvStory.layoutManager?.onSaveInstanceState()
-
-        // Add data to the adapter
         storyAdapter.submitData(lifecycle, stories)
-
-        // Restore last recyclerview state
         binding.rvStory.layoutManager?.onRestoreInstanceState(recyclerViewState)
     }
 
