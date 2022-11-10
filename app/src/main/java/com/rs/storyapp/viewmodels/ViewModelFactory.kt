@@ -41,9 +41,6 @@ class ViewModelFactory(
             modelClass.isAssignableFrom(MapsStoryViewModel::class.java) -> {
                 MapsStoryViewModel(storyRepository) as T
             }
-//            modelClass.isAssignableFrom(MapsViewModel::class.java) -> {
-//                MapsViewModel(storyRepository) as T
-//            }
             else -> throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.simpleName)
         }
     }

@@ -13,14 +13,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.paging.LoadState
-import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rs.storyapp.R
 import com.rs.storyapp.adapter.LoadingStateAdapter
 import com.rs.storyapp.adapter.StoryAdapter
 import com.rs.storyapp.common.util.goto
 import com.rs.storyapp.common.util.gotoWithToken
-import com.rs.storyapp.data.local.database.StoryEntity
 import com.rs.storyapp.databinding.ActivityListStoryBinding
 import com.rs.storyapp.ui.addstory.AddStoryActivity
 import com.rs.storyapp.ui.login.LoginActivity
@@ -66,7 +64,7 @@ class ListStoryActivity : AppCompatActivity() {
             )
         }
 
-        setRecyclerView()
+        binding.rvStory.layoutManager = LinearLayoutManager(this)
         getStories()
 
         binding.fabMaps.setOnClickListener {
@@ -96,64 +94,54 @@ class ListStoryActivity : AppCompatActivity() {
         }
     }
 
-
     private fun getStories() {
-        listStoryViewModel.getStories(token).observe(this) { pagingData ->
-            updateRecyclerViewData(pagingData)
-        }
-
-    }
-
-    private fun setRecyclerView() {
         storyAdapter = StoryAdapter()
+        listStoryViewModel.getStories(token).observe(this) { pagingData ->
+            storyAdapter.submitData(lifecycle, pagingData)
 
-        binding.rvStory.layoutManager = LinearLayoutManager(this)
+            storyAdapter.addLoadStateListener { loadState ->
+                when (loadState.refresh) {
+                    is LoadState.Loading -> {
+                        binding.apply {
+                            progressCircular.visibility = View.VISIBLE
+                            rvStory.visibility = View.GONE
+                            noData.visibility = View.GONE
+                            tvError.visibility = View.GONE
+                        }
+                    }
+                    is LoadState.NotLoading -> {
+                        binding.progressCircular.visibility = View.GONE
+                        if (storyAdapter.itemCount < 1) {
+                            binding.apply {
+                                rvStory.visibility = View.GONE
+                                noData.visibility = View.VISIBLE
 
-        storyAdapter.addLoadStateListener { loadState ->
-            binding.progressCircular.visibility = View.VISIBLE
-            if ((loadState.source.refresh is LoadState.NotLoading && storyAdapter.itemCount < 1) || loadState.source.refresh is LoadState.Error) {
-                // List empty or error
-                binding.apply {
-                    progressCircular.visibility = View.GONE
-                    rvStory.visibility = View.GONE
-                    tvStoryNotFound.visibility = View.VISIBLE
+                            }
+                        } else {
+                            binding.apply {
+                                rvStory.visibility = View.VISIBLE
+                                noData.visibility = View.GONE
+                            }
+                        }
+                    }
+                    is LoadState.Error -> {
+                        binding.apply {
+                            progressCircular.visibility = View.GONE
+                            rvStory.visibility = View.VISIBLE
+                            tvError.visibility = View.VISIBLE
+                        }
+
+                    }
                 }
-            } else {
-                // List not empty
-                binding.apply {
-                    progressCircular.visibility = View.GONE
-                    rvStory.visibility = View.VISIBLE
-                    tvStoryNotFound.visibility = View.GONE
-                }
+
             }
-            binding.swiperefresh.isRefreshing = false
-
         }
-
         binding.rvStory.adapter = storyAdapter.withLoadStateFooter(
             footer = LoadingStateAdapter {
                 storyAdapter.retry()
             }
         )
-    }
-
-//    override fun onResume() {
-//        super.onResume()
-//        getStories()
-//        storyAdapter.refresh()
-//    }
-//
-//    override fun onPause() {
-//        super.onPause()
-//        getStories()
-//        storyAdapter.refresh()
-//    }
-
-
-    private fun updateRecyclerViewData(stories: PagingData<StoryEntity>) {
-        val recyclerViewState = binding.rvStory.layoutManager?.onSaveInstanceState()
-        storyAdapter.submitData(lifecycle, stories)
-        binding.rvStory.layoutManager?.onRestoreInstanceState(recyclerViewState)
+        binding.swiperefresh.isRefreshing = false
     }
 
     private fun logout() {

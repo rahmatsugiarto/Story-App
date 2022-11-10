@@ -17,18 +17,19 @@ import okhttp3.RequestBody
 /**
  * Created by Rahmat Sugiarto on 10/10/2022
  */
-class StoryRepository(private val apiService: ApiService, private val database: StoryDatabase) {
+class StoryRepository(
+    private val apiService: ApiService,
+    private val database: StoryDatabase,
+) {
 
     @OptIn(ExperimentalPagingApi::class)
     fun getStories(token: String): LiveData<PagingData<StoryEntity>> {
-        wrapEspressoIdlingResource {
-            return Pager(
-                config = PagingConfig(pageSize = 5),
-                remoteMediator = StoryRemoteMediator(token, database, apiService),
-                pagingSourceFactory = {
-                    database.storyDao().getAllStories()
-                }).liveData
-        }
+        return Pager(
+            config = PagingConfig(pageSize = 5),
+            remoteMediator = StoryRemoteMediator(token, database, apiService),
+            pagingSourceFactory = {
+                database.storyDao().getAllStories()
+            }).liveData
     }
 
     fun getStoriesWithLocation(
@@ -77,7 +78,10 @@ class StoryRepository(private val apiService: ApiService, private val database: 
     companion object {
         private var INSTANCE: StoryRepository? = null
 
-        fun getInstance(apiService: ApiService, database: StoryDatabase): StoryRepository {
+        fun getInstance(
+            apiService: ApiService,
+            database: StoryDatabase,
+        ): StoryRepository {
             return INSTANCE ?: synchronized(this) {
                 StoryRepository(apiService, database)
                     .also { INSTANCE = it }

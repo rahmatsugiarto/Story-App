@@ -52,7 +52,7 @@ class MapsStoryViewModelTest {
         val dummyGetStoriesResponse = DataDummy.generateDummyStoryResponse()
         expectedStoriesWithLocation.value = Result.Success(dummyGetStoriesResponse)
 
-        Mockito.`when`(mapsStoryViewModel.getStoriesWithLocation(dummyToken))
+        Mockito.`when`(storyRepository.getStoriesWithLocation(dummyToken))
             .thenReturn(expectedStoriesWithLocation)
 
         val actualGetStories =
@@ -71,7 +71,7 @@ class MapsStoryViewModelTest {
     fun `when getStories Should Not Null and Return Result(Loading)`() {
         expectedStoriesWithLocation.value = Result.Loading
 
-        Mockito.`when`(mapsStoryViewModel.getStoriesWithLocation(dummyToken))
+        Mockito.`when`(storyRepository.getStoriesWithLocation(dummyToken))
             .thenReturn(expectedStoriesWithLocation)
 
         val actualGetStories =
@@ -86,7 +86,7 @@ class MapsStoryViewModelTest {
     fun `when getStories Should Not Null and Return Result(Error)`() {
         expectedStoriesWithLocation.value = Result.Error("throw exception")
 
-        Mockito.`when`(mapsStoryViewModel.getStoriesWithLocation(dummyToken))
+        Mockito.`when`(storyRepository.getStoriesWithLocation(dummyToken))
             .thenReturn(expectedStoriesWithLocation)
 
         val actualGetStories =

@@ -56,8 +56,8 @@ class StoryRemoteMediator(
             try {
                 Log.d("StoryRemoteMediator", "load: run remote data source")
                 val responseData =
-                    apiService.getStories("Bearer $token", page, state.config.pageSize)
-                val endOfPaginationReached = responseData.listStory.isEmpty()
+                    apiService.getStories("Bearer $token", page, state.config.pageSize).listStory
+                val endOfPaginationReached = responseData.isEmpty()
 
                 database.withTransaction {
                     if (loadType == LoadType.REFRESH) {
@@ -68,10 +68,10 @@ class StoryRemoteMediator(
                     val prevKey = if (page == 1) null else page - 1
                     val nextKey = if (endOfPaginationReached) null else page + 1
 
-                    val keys = responseData.listStory.map {
+                    val keys = responseData.map {
                         RemoteKeyEntity(id = it.id, prevKey = prevKey, nextKey = nextKey)
                     }
-                    val data = responseData.listStory.map { data ->
+                    val data = responseData.map { data ->
                         StoryEntity(
                             data.id,
                             data.name,

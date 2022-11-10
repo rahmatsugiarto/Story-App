@@ -54,6 +54,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.uiSettings.isIndoorLevelPickerEnabled = true
         mMap.uiSettings.isCompassEnabled = true
         mMap.uiSettings.isMapToolbarEnabled = true
+        mMap.uiSettings.isMyLocationButtonEnabled = false
         getMyLocation()
         setMapStyle()
         getStories(token)

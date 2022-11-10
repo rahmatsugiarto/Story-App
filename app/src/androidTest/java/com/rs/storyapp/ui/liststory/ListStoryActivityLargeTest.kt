@@ -78,7 +78,7 @@ class ListStoryActivityLargeTest {
         onView(withId(R.id.profile_image)).check(matches(isDisplayed()))
         onView(withId(R.id.tv_detail_name)).check(matches(isDisplayed()))
         onView(withId(R.id.iv_detail_photo)).check(matches(isDisplayed()))
-        onView(withId(R.id.tv_detail_description)).perform(ViewActions.click())
+        onView(withId(R.id.tv_detail_description)).check(matches(isDisplayed()))
         ViewActions.pressBack()
         Intents.release()
     }

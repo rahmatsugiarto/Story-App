@@ -46,7 +46,7 @@ class SplashScreenViewModelTest {
     fun `when getToken successfully`() = runTest {
         val expectedToken = flowOf(dummyToken)
 
-        Mockito.`when`(splashScreenViewModel.getToken()).thenReturn(expectedToken)
+        Mockito.`when`(authRepository.getToken()).thenReturn(expectedToken)
 
         splashScreenViewModel.getToken().collect { actualToken ->
             assertNotNull(actualToken)

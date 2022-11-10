@@ -58,10 +58,24 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <TextView
-        android:id="@+id/tv_story_not_found"
+        android:id="@+id/no_data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/story_not_found"
+        android:text="@string/no_data"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
+
+    <TextView
+        android:id="@+id/tv_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/error"
         android:textColor="@color/black"
         android:textSize="24sp"
         android:textStyle="bold"

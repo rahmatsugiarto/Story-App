@@ -40,23 +40,14 @@ class SplashScreenActivity : AppCompatActivity() {
                     splashScreenViewModel.getToken().collect { token ->
                         if (token == "") {
                             goto(LoginActivity::class.java)
+                            finish()
                         } else {
                             gotoWithToken(ListStoryActivity::class.java, token.toString())
+                            finish()
                         }
                     }
-                    finish()
                 }
             }
-
-//            splashScreenViewModel.getToken().observe(this) { token ->
-//                if (token == "") {
-//                    goto(LoginActivity::class.java)
-//
-//                } else {
-//                    gotoWithToken(ListStoryActivity::class.java, token)
-//                }
-//                finish()
-//            }
         }, delaySplashScreen)
     }
 

@@ -39,7 +39,6 @@ class AuthRepositoryTest {
     @Mock
     private lateinit var preferencesDataSource: DataUserPreference
 
-    //    @Mock
     private lateinit var apiService: ApiService
 
     @Mock
@@ -51,9 +50,6 @@ class AuthRepositoryTest {
     private val dummyToken = "token"
     private val dummyRequestLogin = DataDummy.generateDummyRequestLogin()
     private val dummyRequestSignUp = DataDummy.generateDummyRequestSignUp()
-
-    private val expectedLogin = MutableLiveData<Result<LoginResponse>>()
-    private val expectedSignUp = DataDummy.generateDummyMessageResponse()
 
     @Before
     fun setup() {
@@ -79,94 +75,6 @@ class AuthRepositoryTest {
         Assert.assertEquals(expectedStory.message, actualLogin.message)
     }
 
-
-    //    @Test
-//    fun `when userLogin Should Not Null and Return Result(Success)`() = runTest {
-//        val dummyLoginResponse = DataDummy.generateDummyLoginResponse()
-//        expectedLogin.value = Result.Success(dummyLoginResponse)
-//
-////        `when`(authRepository.userLogin(dummyRequestLogin)).thenReturn(expectedLogin)
-//
-//        val actualLogin = authRepository.userLogin(dummyRequestLogin).getOrAwaitValue()
-//
-//        verify(apiService).userLogin(dummyRequestLogin)
-//        Assert.assertNotNull(actualLogin)
-//        Assert.assertTrue(actualLogin is Result.Success)
-//        Assert.assertEquals(
-//            dummyLoginResponse.message, (actualLogin as Result.Success).data.message
-//        )
-//    }
-//
-////    @Test
-////    fun `when userLogin Should Not Null and Return Result(Loading)`() = runTest {
-////
-////        `when`(apiService.userLogin(dummyRequestLogin)).thenReturn(expectedLogin)
-////
-////        val actualLogin = authRepository.userLogin(dummyRequestLogin).getOrAwaitValue()
-////
-////        if (actualLogin is Result.Loading) {
-////            verify(apiService).userLogin(dummyRequestLogin)
-////            Assert.assertNotNull(actualLogin)
-////            Assert.assertTrue(true)
-////        }
-////    }
-//
-//
-//    @Test
-//    fun `when userLogin when userLogin Should Not Null and Return Result(Error)`() = runTest {
-//        `when`(apiService.userLogin(dummyRequestLogin)).then { throw Exception() }
-//
-//        val actualLogin = authRepository.userLogin(dummyRequestLogin).getOrAwaitValue()
-//
-//        if (actualLogin is Result.Error) {
-//            verify(apiService).userLogin(dummyRequestLogin)
-//            Assert.assertNotNull(actualLogin)
-//            Assert.assertTrue(true)
-//        }
-//    }
-//
-//
-//    @Test
-//    fun `when userSignUp Should Not Null and Return Result(Success)`() = runTest {
-//        `when`(apiService.userSignUp(dummyRequestSignUp)).thenReturn(expectedSignUp)
-//
-//        val actualSignUp = authRepository.userSignUp(dummyRequestSignUp).getOrAwaitValue()
-//
-//        if (actualSignUp is Result.Success) {
-//            verify(apiService).userLogin(dummyRequestLogin)
-//            Assert.assertNotNull(actualSignUp)
-//            Assert.assertTrue(true)
-//            Assert.assertEquals(
-//                expectedSignUp.message, actualSignUp.data.message
-//            )
-//        }
-//
-//    }
-//
-//    @Test
-//    fun `when userSignUp Should Not Null and Return Result(Loading)`() = runTest {
-//        `when`(apiService.userSignUp(dummyRequestSignUp)).thenReturn(expectedSignUp)
-//
-//        val actualSignUp = authRepository.userSignUp(dummyRequestSignUp).getOrAwaitValue()
-//
-//        if (actualSignUp is Result.Loading) {
-//            Assert.assertNotNull(actualSignUp)
-//            Assert.assertTrue(true)
-//        }
-//    }
-//
-//    @Test
-//    fun `when userSignUp Should Not Null and Return Result(Error)`() = runTest {
-//        `when`(apiService.userSignUp(dummyRequestSignUp)).thenReturn(expectedSignUp)
-//
-//        val actualSignUp = authRepository.userSignUp(dummyRequestSignUp).getOrAwaitValue()
-//
-//        if (actualSignUp is Result.Loading) {
-//            Assert.assertNotNull(actualSignUp)
-//            Assert.assertTrue(true)
-//        }
-//    }
-//
     @Test
     fun `when saveToken successfully`() = runTest {
         authRepository.saveToken(dummyToken)

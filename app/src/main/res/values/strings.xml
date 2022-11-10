@@ -33,7 +33,7 @@
     <string name="invalid_email_pass">Invalid email or password</string>
     <string name="setting">Setting</string>
     <string name="no_data">No Data</string>
-    <string name="story_not_found">Story not found</string>
+    <string name="error">Error</string>
     <string name="image_priview">Image priview</string>
     <string name="more">More</string>
     <string name="image_stoty">Image Stoty</string>

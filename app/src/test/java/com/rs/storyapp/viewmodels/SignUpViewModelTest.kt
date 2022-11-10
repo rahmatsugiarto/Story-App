@@ -50,7 +50,7 @@ class SignUpViewModelTest {
         val dummySignUpResponse = DataDummy.generateDummyMessageResponse()
         expectedSignUp.value = Result.Success(dummySignUpResponse)
 
-        Mockito.`when`(signUpViewModel.userSignUp(dummyRequestSignUp)).thenReturn(expectedSignUp)
+        Mockito.`when`(authRepository.userSignUp(dummyRequestSignUp)).thenReturn(expectedSignUp)
 
         val actualSignUp = signUpViewModel.userSignUp(dummyRequestSignUp).getOrAwaitValue()
 
@@ -66,7 +66,7 @@ class SignUpViewModelTest {
     @Test
     fun `when userSignUp Should Not Null and Return Result(Loading)`() {
         expectedSignUp.value = Result.Loading
-        Mockito.`when`(signUpViewModel.userSignUp(dummyRequestSignUp)).thenReturn(expectedSignUp)
+        Mockito.`when`(authRepository.userSignUp(dummyRequestSignUp)).thenReturn(expectedSignUp)
 
         val actualSignUp = signUpViewModel.userSignUp(dummyRequestSignUp).getOrAwaitValue()
 
@@ -78,7 +78,7 @@ class SignUpViewModelTest {
     @Test
     fun `when userSignUp Should Not Null and Return Result(Error)`() {
         expectedSignUp.value = Result.Error("throw exception")
-        Mockito.`when`(signUpViewModel.userSignUp(dummyRequestSignUp)).thenReturn(expectedSignUp)
+        Mockito.`when`(authRepository.userSignUp(dummyRequestSignUp)).thenReturn(expectedSignUp)
 
         val actualSignUp = signUpViewModel.userSignUp(dummyRequestSignUp).getOrAwaitValue()
 

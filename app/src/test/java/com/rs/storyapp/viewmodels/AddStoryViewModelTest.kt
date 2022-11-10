@@ -61,7 +61,7 @@ class AddStoryViewModelTest {
     fun `when getToken successfully`() = runTest {
         val expectedToken = flowOf(dummyToken)
 
-        Mockito.`when`(addStoryViewModel.getToken()).thenReturn(expectedToken)
+        Mockito.`when`(authRepository.getToken()).thenReturn(expectedToken)
 
         addStoryViewModel.getToken().collect { actualToken ->
             assertNotNull(actualToken)
@@ -69,7 +69,6 @@ class AddStoryViewModelTest {
         }
 
         Mockito.verify(authRepository).getToken()
-        Mockito.verifyNoInteractions(storyRepository)
     }
 
 
@@ -146,7 +145,7 @@ class AddStoryViewModelTest {
 
     private fun checkExpectedAddStoryFromFunctionAddStory(expectedAddStory: MutableLiveData<Result<MessageResponse>>) {
         Mockito.`when`(
-            addStoryViewModel.addStory(
+            storyRepository.uploadImage(
                 dummyMultipart,
                 dummyDescription,
                 dummyToken,

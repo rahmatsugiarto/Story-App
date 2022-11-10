@@ -58,7 +58,7 @@ class LoginViewModelTest {
         val dummyLoginResponse = DataDummy.generateDummyLoginResponse()
         expectedUserLogin.value = Result.Success(dummyLoginResponse)
 
-        Mockito.`when`(loginViewModel.userLogin(dummyRequestLogin)).thenReturn(expectedUserLogin)
+        Mockito.`when`(authRepository.userLogin(dummyRequestLogin)).thenReturn(expectedUserLogin)
 
         val actualLogin = loginViewModel.userLogin(dummyRequestLogin).getOrAwaitValue()
 
@@ -74,7 +74,7 @@ class LoginViewModelTest {
     @Test
     fun `when userLogin Should Not Null and Return Result(Loading)`() {
         expectedUserLogin.value = Result.Loading
-        Mockito.`when`(loginViewModel.userLogin(dummyRequestLogin)).thenReturn(expectedUserLogin)
+        Mockito.`when`(authRepository.userLogin(dummyRequestLogin)).thenReturn(expectedUserLogin)
 
         val actualLogin = loginViewModel.userLogin(dummyRequestLogin).getOrAwaitValue()
 
@@ -86,7 +86,7 @@ class LoginViewModelTest {
     @Test
     fun `when userLogin when userLogin Should Not Null and Return Result(Error)`() {
         expectedUserLogin.value = Result.Error("throw exception")
-        Mockito.`when`(loginViewModel.userLogin(dummyRequestLogin)).thenReturn(expectedUserLogin)
+        Mockito.`when`(authRepository.userLogin(dummyRequestLogin)).thenReturn(expectedUserLogin)
 
         val actualLogin = loginViewModel.userLogin(dummyRequestLogin).getOrAwaitValue()
 

@@ -29,6 +29,7 @@ import com.rs.storyapp.common.util.showToastShort
 import com.rs.storyapp.common.util.uriToFile
 import com.rs.storyapp.data.Result
 import com.rs.storyapp.databinding.ActivityAddStoryBinding
+import com.rs.storyapp.ui.liststory.ListStoryActivity
 import com.rs.storyapp.viewmodels.AddStoryViewModel
 import com.rs.storyapp.viewmodels.ViewModelFactory
 import kotlinx.coroutines.launch
@@ -184,7 +185,10 @@ class AddStoryActivity : AppCompatActivity() {
                                     binding.progressCircular.visibility = View.GONE
                                     Toast.makeText(this, result.data.message, Toast.LENGTH_LONG)
                                         .show()
-                                    finish()
+                                    val i = Intent(this, ListStoryActivity::class.java)
+                                    i.putExtra(ListStoryActivity.EXTRA_TOKEN, token)
+                                    i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                    startActivity(i)
                                 }
                                 is Result.Error -> {
                                     binding.progressCircular.visibility = View.GONE

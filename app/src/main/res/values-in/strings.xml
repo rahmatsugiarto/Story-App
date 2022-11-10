@@ -34,7 +34,7 @@
     <string name="invalid_email_pass">""Email atau kata sandi tidak valid""</string>
     <string name="setting">Pengaturan</string>
     <string name="no_data">Tidak ada Data</string>
-    <string name="story_not_found">Cerita tidak ditemukan</string>
+    <string name="error">Error</string>
     <string name="image_priview">Pratinjau gambar</string>
     <string name="more">More</string>
     <string name="image_stoty">Cerita Gambar</string>
